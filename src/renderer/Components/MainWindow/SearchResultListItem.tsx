@@ -13,15 +13,15 @@ interface Props {
 export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, colorThemeName }) => {
     const colorTheme = getColorTheme(colorThemeName);
 
+    const generalSearchResultItemStyle: CSSProperties = { borderRadius: 2 };
+
     const searchResultItemStyle: CSSProperties = selected
         ? { background: colorTheme.palette.neutralLight }
-        : { opacity: 0.75 };
-
-    const textStyle: CSSProperties = selected ? { fontWeight: "bold" } : {};
+        : { opacity: 0.5 };
 
     return (
         <Stack
-            style={searchResultItemStyle}
+            style={Object.assign(generalSearchResultItemStyle, searchResultItemStyle)}
             horizontal
             tokens={{ childrenGap: 10, padding: 10 }}
             verticalAlign="center"
@@ -31,7 +31,7 @@ export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, co
             </StackItem>
             <StackItem styles={{ root: { minWidth: 0, overflow: "hidden" } }}>
                 <Stack>
-                    <Text style={textStyle} variant="mediumPlus" styles={{ root: { overflow: "hidden" } }} nowrap>
+                    <Text variant="mediumPlus" styles={{ root: { overflow: "hidden" } }} nowrap>
                         {searchResultItem.name}
                     </Text>
                     <Text variant="smallPlus" styles={{ root: { overflow: "hidden" } }} nowrap>
