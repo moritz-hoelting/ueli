@@ -1,4 +1,4 @@
-import { ITextField, TextField } from "@fluentui/react";
+import { Input } from "@fluentui/react-components";
 import { FC, KeyboardEvent, useRef, useState } from "react";
 import { IpcChannel } from "../../../common/IpcChannel";
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const UserInput: FC<Props> = ({ onSearchTermChanged, onKeyUp }) => {
-    const userInputRef = useRef<ITextField>(null);
+    const userInputRef = useRef<HTMLInputElement>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     const onSearchTermChange = (updatedSearchTerm: string): void => {
@@ -22,13 +22,14 @@ export const UserInput: FC<Props> = ({ onSearchTermChanged, onKeyUp }) => {
     });
 
     return (
-        <TextField
-            componentRef={userInputRef}
-            iconProps={{ iconName: "Search" }}
-            underlined
+        <Input
+            ref={userInputRef}
+            appearance="underline"
+            size="large"
             value={searchTerm}
-            onChange={(_, newValue) => onSearchTermChange(newValue ?? "")}
+            onChange={(_, { value }) => onSearchTermChange(value)}
             onKeyUp={onKeyUp}
+            style={{ width: "100%" }}
         />
     );
 };

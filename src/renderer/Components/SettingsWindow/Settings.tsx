@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
-import { Stack, StackItem, ThemeProvider } from "@fluentui/react";
-import { initializeIcons } from "@fluentui/font-icons-mdl2";
-import { getColorTheme } from "../../ColorTheme/UeliColorThemes";
+import { FluentProvider } from "@fluentui/react-components";
+import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { Navigation } from "./Navigation";
 import { Route, Routes } from "react-router-dom";
 import { GeneralSettings } from "./GeneralSettings";
@@ -9,18 +8,21 @@ import { SearchEngineSettings } from "./SearchEngineSettings";
 import { AppearanceSettings } from "./AppearanceSettings";
 import { getSettings } from "../../Actions";
 
-initializeIcons();
-
 export const Settings: FC = () => {
-    const [colorThemeName, setColorThemeName] = useState<string>(getSettings().appearanceSettings.colorThemeName);
+    const [colorThemeName, setColorThemeName] = useState<ColorThemeName>(
+        getSettings().appearanceSettings.colorThemeName
+    );
 
     return (
-        <ThemeProvider theme={getColorTheme(colorThemeName)} style={{ height: "100vh" }}>
-            <Stack horizontal>
-                <StackItem verticalFill={true}>
+        <FluentProvider
+            theme={getTheme(colorThemeName)}
+            style={{ height: "100vh", padding: 10, boxSizing: "border-box" }}
+        >
+            <div style={{ display: "flex", flexDirection: "row", gap: 20 }}>
+                <div>
                     <Navigation />
-                </StackItem>
-                <StackItem grow>
+                </div>
+                <div style={{ flexGrow: 1 }}>
                     <Routes>
                         <Route path="/" element={<GeneralSettings />} />
                         <Route path="/search-engine" element={<SearchEngineSettings />} />
@@ -34,8 +36,8 @@ export const Settings: FC = () => {
                             }
                         />
                     </Routes>
-                </StackItem>
-            </Stack>
-        </ThemeProvider>
+                </div>
+            </div>
+        </FluentProvider>
     );
 };

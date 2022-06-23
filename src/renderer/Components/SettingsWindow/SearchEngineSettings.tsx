@@ -1,4 +1,5 @@
-import { Position, Slider, SpinButton, Stack, StackItem, Toggle } from "@fluentui/react";
+import { Label, Slider, Switch } from "@fluentui/react-components";
+import { SpinButton } from "@fluentui/react-components/unstable";
 import { FC, useState } from "react";
 import { getSettings, saveSettings } from "../../Actions";
 
@@ -34,37 +35,39 @@ export const SearchEngineSettings: FC = () => {
     };
 
     return (
-        <Stack tokens={{ childrenGap: 20, padding: 20 }}>
-            <StackItem>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div>
+                <Label htmlFor="threshold">Threshold</Label>
                 <Slider
-                    label="Threshold"
+                    id="threshold"
                     min={0}
                     max={1}
                     step={0.1}
                     value={threshold}
-                    onChange={(value) => updateThreshold(value)}
+                    onChange={(_event, { value }) => updateThreshold(value)}
                 />
-            </StackItem>
-            <StackItem>
-                <Toggle
-                    label="Automatic rescan"
+            </div>
+            <div>
+                <Label htmlFor="automatic-rescan-enabled">Automatic Rescan</Label>
+                <Switch
+                    id="automatic-rescan-enabled"
                     checked={automaticRescanEnabled}
                     onChange={() => toggleAutomaticRescanEnabled()}
                 />
-            </StackItem>
+            </div>
             {automaticRescanEnabled ? (
-                <StackItem>
+                <div>
+                    <Label htmlFor="automaticRescanInterval">Automatic Rescan Interval</Label>
                     <SpinButton
-                        label="Automatic rescan interval"
-                        labelPosition={Position.top}
+                        id="automaticRescanInterval"
                         min={10}
-                        value={automaticRescanInterval.toString()}
+                        value={automaticRescanInterval}
                         onChange={(_, updatedValue) => updateAutomaticRescanInterval(Number(updatedValue))}
                     />
-                </StackItem>
+                </div>
             ) : (
                 ""
             )}
-        </Stack>
+        </div>
     );
 };

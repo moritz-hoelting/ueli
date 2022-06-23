@@ -1,15 +1,13 @@
-import { initializeIcons, Stack, StackItem, ThemeProvider } from "@fluentui/react";
+import { FluentProvider } from "@fluentui/react-components";
 import { FC, useEffect, useState, KeyboardEvent } from "react";
 import { IpcChannel } from "../../../common/IpcChannel";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
 import { Settings } from "../../../common/Settings/Settings";
 import { getSettings } from "../../Actions";
-import { getColorTheme } from "../../ColorTheme/UeliColorThemes";
+import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultList } from "./SearchResultList";
 import { calculateSelectedIndex, NavigationDirection } from "./SearchResultListUtility";
 import { UserInput } from "./UserInput";
-
-initializeIcons();
 
 const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirection> = {
     ArrowDown: NavigationDirection.Next,
@@ -19,7 +17,7 @@ const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirectio
 export const Main: FC = () => {
     const [searchResultItems, setSearchResultItems] = useState<SearchResultItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    const [colorThemeName, setColorTheme] = useState<string>(getSettings().appearanceSettings.colorThemeName);
+    const [colorThemeName, setColorTheme] = useState<ColorThemeName>(getSettings().appearanceSettings.colorThemeName);
 
     const registerIpcEventListeners = () => {
         window.Bridge.ipcRenderer.on<Settings>(IpcChannel.SettingsUpdated, (_, { appearanceSettings }) =>
@@ -61,19 +59,19 @@ export const Main: FC = () => {
     useEffect(() => registerIpcEventListeners(), []);
 
     return (
-        <ThemeProvider theme={getColorTheme(colorThemeName)} style={{ height: "100vh" }}>
-            <Stack verticalFill>
-                <StackItem tokens={{ padding: 10 }}>
+        <FluentProvider theme={getTheme(colorThemeName)} style={{ height: "100vh" }}>
+            <div>
+                <div>
                     <UserInput onSearchTermChanged={search} onKeyUp={handleKeyPress} />
-                </StackItem>
-                <StackItem grow tokens={{ padding: 10 }} styles={{ root: { overflowY: "auto" } }}>
+                </div>
+                <div>
                     <SearchResultList
                         searchResultItems={searchResultItems}
                         selectedIndex={selectedIndex}
                         colorThemeName={colorThemeName}
                     />
-                </StackItem>
-            </Stack>
-        </ThemeProvider>
+                </div>
+            </div>
+        </FluentProvider>
     );
 };

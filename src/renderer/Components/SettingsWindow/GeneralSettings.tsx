@@ -1,4 +1,4 @@
-import { Stack, StackItem, Toggle } from "@fluentui/react";
+import { Label, Switch } from "@fluentui/react-components";
 import { FC, useState } from "react";
 import { getSettings, saveSettings } from "../../Actions";
 
@@ -13,14 +13,11 @@ export const GeneralSettings: FC = () => {
     };
 
     return (
-        <Stack tokens={{ childrenGap: 20, padding: 20 }}>
-            <StackItem>
-                <Toggle
-                    label="Hide window on blur"
-                    checked={hideWindowOnBlur}
-                    onChange={() => toggleHideWindowOnBlur()}
-                />
-            </StackItem>
-        </Stack>
+        <div>
+            <div>
+                <Label htmlFor="hide-window-on-blur">Hide window on blur</Label>
+                <Switch id="hide-window-on-blur" checked={hideWindowOnBlur} onChange={() => toggleHideWindowOnBlur()} />
+            </div>
+        </div>
     );
 };
