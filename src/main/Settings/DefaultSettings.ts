@@ -10,6 +10,6 @@ export const defaultSettings: Settings = {
         automaticRescanIntervalInSeconds: 300,
     },
     appearanceSettings: {
-        colorThemeName: "UeliDark",
+        colorThemeName: "Web Dark",
     },
 };

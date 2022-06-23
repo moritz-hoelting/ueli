@@ -15,6 +15,9 @@ export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, on
     const options: { label: string; value: ColorThemeName }[] = [
         { label: "Web Light", value: "Web Light" },
         { label: "Web Dark", value: "Web Dark" },
+        { label: "Teams Light", value: "Teams Light" },
+        { label: "Teams Dark", value: "Teams Dark" },
+        { label: "Teams High Contrast", value: "Teams High Contrast" },
     ];
 
     const changeColorThemeName = async (updatedColorThemeName: ColorThemeName) => {
