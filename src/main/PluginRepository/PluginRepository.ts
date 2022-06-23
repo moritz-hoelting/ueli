@@ -1,4 +1,4 @@
-import { ExecutionContext } from "../ExecutionContext";
+import { ExecutionContext } from "../../common/ExecutionContext";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { SimpleFolderSearchPlugin } from "../Plugins/SimpleFolderSearchPlugin/SimpleFolderSearchPlugin";
 import { UeliCommandsPlugin } from "../Plugins/UeliCommandsPlugin/UeliCommandsPlugin";

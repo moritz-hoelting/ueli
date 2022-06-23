@@ -1,5 +1,4 @@
-import { App, GlobalShortcut, IpcMain, IpcMainEvent } from "electron";
-import { IpcMainInvokeEvent } from "electron/main";
+import { App, GlobalShortcut, IpcMain } from "electron";
 import { IpcChannel } from "../common/IpcChannel";
 import { Logger } from "../common/Logger/Logger";
 import { OperatingSystem } from "../common/OperatingSystem/OperatingSystem";
@@ -8,7 +7,7 @@ import { Settings } from "../common/Settings/Settings";
 import { ExecutionService } from "./Core/ExecutionService";
 import { LocationOpeningService } from "./Core/LocationOpeningService";
 import { SearchEngine } from "./Core/SearchEngine";
-import { ExecutionContext } from "./ExecutionContext";
+import { ExecutionContext } from "../common/ExecutionContext";
 import { SettingsManager } from "./Settings/SettingsManager";
 import { TrayIconEvent } from "./TrayIconEvent";
 import { TrayIconManager } from "./TrayIconManager";
@@ -78,7 +77,7 @@ export class MainApplication {
     private registerIpcEventListeners(): void {
         this.ipcMain.handle(
             IpcChannel.Search,
-            (_: IpcMainInvokeEvent, args: string[]): Promise<SearchResultItem[]> =>
+            (_, args: string[]): Promise<SearchResultItem[]> =>
                 args.length > 0
                     ? Promise.resolve(this.searchEngine.search(args[0]))
                     : Promise.reject("Failed to handle search term. Reason: no search term specified.")
@@ -86,7 +85,7 @@ export class MainApplication {
 
         this.ipcMain.handle(
             IpcChannel.Execute,
-            async (_: IpcMainInvokeEvent, args: SearchResultItem[]): Promise<void> =>
+            async (_, args: SearchResultItem[]): Promise<void> =>
                 args.length > 0
                     ? this.execute(args[0])
                     : Promise.reject("Failed to execute search result item. Reason: no search result items given.")
@@ -94,7 +93,7 @@ export class MainApplication {
 
         this.ipcMain.handle(
             IpcChannel.OpenLocation,
-            (_: IpcMainInvokeEvent, args: SearchResultItem[]): Promise<void> =>
+            (_, args: SearchResultItem[]): Promise<void> =>
                 args.length > 0
                     ? this.openLocation(args[0])
                     : Promise.reject("Unable to open location. Reason: no search result items given.")
@@ -104,7 +103,7 @@ export class MainApplication {
 
         this.ipcMain.handle(
             IpcChannel.UpdateSettings,
-            (_: IpcMainInvokeEvent, args: Settings[]): Promise<void> =>
+            (_, args: Settings[]): Promise<void> =>
                 args.length > 0
                     ? this.updateSettings(args[0])
                     : Promise.reject("Unable to update settings. Reason: no settings given.")
@@ -122,10 +121,8 @@ export class MainApplication {
             async (_, ueliCommandEvent: UeliCommandEvent) => await this.handleUeliCommandEvent(ueliCommandEvent)
         );
 
-        this.ipcMain.on(
-            IpcChannel.GetSettings,
-            (event: IpcMainEvent) => (event.returnValue = this.settingsManager.getSettings())
-        );
+        this.ipcMain.on(IpcChannel.GetSettings, (event) => (event.returnValue = this.settingsManager.getSettings()));
+        this.ipcMain.on(IpcChannel.GetExecutionContext, (event) => (event.returnValue = this.executionContext));
     }
 
     private execute(searchResultItem: SearchResultItem): Promise<void> {

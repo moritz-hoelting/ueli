@@ -1,10 +1,10 @@
 import { createHash } from "crypto";
 import { join } from "path";
-import { ExecutionContext } from "../../ExecutionContext";
 import { SearchPlugin } from "../SearchPlugin";
 import { MacOsApplication } from "./MacOsApplication";
 import { app } from "electron";
 import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 
 export class MacOsApplicationSearchPlugin extends SearchPlugin<Record<string, unknown>> {
     public readonly pluginId = "MacOsApplicationSearchPlugin";

@@ -8,14 +8,19 @@ import { SearchEngineSettings } from "./SearchEngineSettings";
 import { AppearanceSettings } from "./AppearanceSettings";
 import { getSettings } from "../../Actions";
 import { About } from "./About";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 
-export const Settings: FC = () => {
+interface Props {
+    executionContext: ExecutionContext;
+}
+
+export const Settings: FC<Props> = ({ executionContext }) => {
     const [colorThemeName, setColorThemeName] = useState<ColorThemeName>(
         getSettings().appearanceSettings.colorThemeName
     );
 
     const routes: { path: string; element: JSX.Element }[] = [
-        { path: "/about", element: <About /> },
+        { path: "/about", element: <About exeuctionContext={executionContext} /> },
         {
             path: "/appearance",
             element: <AppearanceSettings colorTheme={colorThemeName} onColorThemeChanged={setColorThemeName} />,

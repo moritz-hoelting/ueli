@@ -1,5 +1,5 @@
 import { join } from "path";
-import { ExecutionContext } from "../ExecutionContext";
+import { ExecutionContext } from "../../common/ExecutionContext";
 import { Searchable } from "../Core/Searchable";
 import { FileSystemUtility } from "../Utilities/FileSystemUtility";
 

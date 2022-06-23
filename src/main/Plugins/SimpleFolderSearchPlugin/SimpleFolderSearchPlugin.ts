@@ -1,4 +1,4 @@
-import { ExecutionContext } from "../../ExecutionContext";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 import { FileIconUtility } from "../../Utilities/FileIconUtility";
 import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
 import { SearchPlugin } from "../SearchPlugin";

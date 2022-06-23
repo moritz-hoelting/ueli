@@ -1,4 +1,4 @@
-import { ExecutionContext } from "../../ExecutionContext";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 import { UeliCommandEvent } from "../../UeliCommandEvent";
 import { SearchPlugin } from "../SearchPlugin";
 import { UeliCommand } from "./UeliCommand";

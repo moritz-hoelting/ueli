@@ -22,12 +22,9 @@ import { WindowManager } from "./WindowManager";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
 const logger = new ConsoleLogger();
-
-const executionContext = ExecutionContextFactory.fromElectronApp(operatingSystem, app);
-
+const executionContext = ExecutionContextFactory.fromElectronApp(operatingSystem, app, process.versions.electron);
 const fileSettingsRepository = new FileSettingsRepository(join(executionContext.userDataPath, "ueli9.settings.json"));
 const settingsManager = new SettingsManager(fileSettingsRepository, defaultSettings, logger);
-
 const windowManager = new WindowManager(settingsManager);
 const trayIconManager = new TrayIconManager(executionContext, ipcMain);
 

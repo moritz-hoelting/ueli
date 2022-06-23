@@ -2,6 +2,7 @@ export enum IpcChannel {
     ClearCaches = "ClearCaches",
     EscapePressed = "EscapePressed",
     Execute = "Execute",
+    GetExecutionContext = "GetExecutionContext",
     GetSettings = "GetSettings",
     MainWindowShown = "MainWindowShown",
     OpenLocation = "OpenLocation",

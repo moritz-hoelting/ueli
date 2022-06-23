@@ -1,5 +1,5 @@
 import { join } from "path";
-import { ExecutionContext } from "../../ExecutionContext";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 import { SearchPlugin } from "../SearchPlugin";
 import { extractShortcutPowershellScript, getWindowsAppsPowershellScript } from "./PowershellScripts";
 import { WindowsApplication } from "./WindowsApplication";
