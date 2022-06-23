@@ -1,18 +1,13 @@
 import { Tab, TabList } from "@fluentui/react-components";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { routes } from "./Routes";
 
 export const Navigation: FC = () => {
-    const [selectedValue, setSelectedValue] = useState<string>("general");
+    const [selectedValue, setSelectedValue] = useState<string>("/general");
     const navigate = useNavigate();
 
     useEffect(() => navigate("/"), []);
-
-    const tabs: { url: string; label: string }[] = [
-        { label: "General", url: "/" },
-        { label: "Search Engine", url: "/search-engine" },
-        { label: "Appearance", url: "/appearance" },
-    ];
 
     const navigateTo = (url: string) => {
         setSelectedValue(url);
@@ -29,8 +24,8 @@ export const Navigation: FC = () => {
                 }
             }}
         >
-            {tabs.map(({ label, url }, index) => (
-                <Tab key={`${label}-${url}-${index}`} value={url}>
+            {routes.map(({ label, path }, index) => (
+                <Tab key={`${label}-${path}-${index}`} value={path}>
                     {label}
                 </Tab>
             ))}
