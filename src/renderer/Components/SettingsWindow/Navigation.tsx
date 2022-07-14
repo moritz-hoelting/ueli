@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "./Routes";
 
 export const Navigation: FC = () => {
-    const [selectedValue, setSelectedValue] = useState<string>("/general");
+    const [selectedValue, setSelectedValue] = useState<string>(routes[0].path);
     const navigate = useNavigate();
 
     useEffect(() => navigate("/"), []);
