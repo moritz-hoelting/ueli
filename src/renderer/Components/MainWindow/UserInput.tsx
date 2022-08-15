@@ -1,19 +1,34 @@
 import { Input } from "@fluentui/react-components";
 import { FC, KeyboardEvent, useRef, useState } from "react";
 import { IpcChannel } from "../../../common/IpcChannel";
+import { NavigationDirection } from "./SearchResultListUtility";
+
+const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirection> = {
+    ArrowDown: NavigationDirection.Next,
+    ArrowUp: NavigationDirection.Previous,
+};
 
 interface Props {
     onSearchTermChanged: (searchTerm: string) => void;
-    onKeyUp: (event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onNavigate: (direction: NavigationDirection) => void;
+    onEnterPressed: (ctrlOrMetaKeyPressed: boolean) => void;
 }
 
-export const UserInput: FC<Props> = ({ onSearchTermChanged, onKeyUp }) => {
+export const UserInput: FC<Props> = ({ onSearchTermChanged, onNavigate, onEnterPressed }) => {
     const userInputRef = useRef<HTMLInputElement>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     const onSearchTermChange = (updatedSearchTerm: string): void => {
         setSearchTerm(updatedSearchTerm);
         onSearchTermChanged(updatedSearchTerm ?? "");
+    };
+
+    const onKeyUp = async (event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            onNavigate(navigationDirectionMap[event.key]);
+        } else if (event.key === "Enter") {
+            onEnterPressed(event.ctrlKey || event.metaKey);
+        }
     };
 
     window.Bridge.ipcRenderer.on(IpcChannel.MainWindowShown, () => {

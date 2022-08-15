@@ -1,5 +1,5 @@
 import { FluentProvider } from "@fluentui/react-components";
-import { FC, useEffect, useState, KeyboardEvent } from "react";
+import { FC, useEffect, useState } from "react";
 import { IpcChannel } from "../../../common/IpcChannel";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
 import { Settings } from "../../../common/Settings/Settings";
@@ -9,23 +9,22 @@ import { SearchResultList } from "./SearchResultList";
 import { calculateSelectedIndex, NavigationDirection } from "./SearchResultListUtility";
 import { UserInput } from "./UserInput";
 
-const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirection> = {
-    ArrowDown: NavigationDirection.Next,
-    ArrowUp: NavigationDirection.Previous,
-};
-
 export const Main: FC = () => {
     const [searchResultItems, setSearchResultItems] = useState<SearchResultItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const [colorThemeName, setColorTheme] = useState<ColorThemeName>(getSettings().appearanceSettings.colorThemeName);
 
-    const registerIpcEventListeners = () => {
+    const registerIpcEventListeners = () =>
         window.Bridge.ipcRenderer.on<Settings>(IpcChannel.SettingsUpdated, (_, { appearanceSettings }) =>
             setColorTheme(appearanceSettings.colorThemeName)
         );
+
+    const executeSearchResultItem = (searchResultItem: SearchResultItem, openLocation: boolean): Promise<void> => {
+        const ipcChannel = openLocation ? IpcChannel.OpenLocation : IpcChannel.Execute;
+        return window.Bridge.ipcRenderer.invoke<SearchResultItem, void>(ipcChannel, searchResultItem);
     };
 
-    const search = async (searchTerm: string) => {
+    const onSearchTermChanged = async (searchTerm: string) => {
         const result = await window.Bridge.ipcRenderer.invoke<unknown, SearchResultItem[]>(
             IpcChannel.Search,
             searchTerm
@@ -35,26 +34,11 @@ export const Main: FC = () => {
         setSelectedIndex(0);
     };
 
-    const executeSearchResultItem = (searchResultItem: SearchResultItem, openLocation: boolean): Promise<void> => {
-        const ipcChannel = openLocation ? IpcChannel.OpenLocation : IpcChannel.Execute;
-        return window.Bridge.ipcRenderer.invoke<SearchResultItem, void>(ipcChannel, searchResultItem);
-    };
+    const onEnterPressed = (ctrlOrMetaKeyPressed: boolean) =>
+        executeSearchResultItem(searchResultItems[selectedIndex], ctrlOrMetaKeyPressed);
 
-    const handleKeyPress = async (event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-            const nextSelectedIndex = calculateSelectedIndex(
-                selectedIndex,
-                searchResultItems.length,
-                navigationDirectionMap[event.key]
-            );
-
-            setSelectedIndex(nextSelectedIndex);
-        }
-
-        if (event.key === "Enter") {
-            executeSearchResultItem(searchResultItems[selectedIndex], event.ctrlKey || event.metaKey);
-        }
-    };
+    const onNavigate = (navigationDirection: NavigationDirection) =>
+        setSelectedIndex(calculateSelectedIndex(selectedIndex, searchResultItems.length, navigationDirection));
 
     useEffect(() => registerIpcEventListeners(), []);
 
@@ -62,7 +46,11 @@ export const Main: FC = () => {
         <FluentProvider theme={getTheme(colorThemeName)} style={{ height: "100vh" }}>
             <div>
                 <div>
-                    <UserInput onSearchTermChanged={search} onKeyUp={handleKeyPress} />
+                    <UserInput
+                        onSearchTermChanged={onSearchTermChanged}
+                        onEnterPressed={onEnterPressed}
+                        onNavigate={onNavigate}
+                    />
                 </div>
                 <div>
                     <SearchResultList
