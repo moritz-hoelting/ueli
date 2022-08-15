@@ -1,5 +1,4 @@
-import { Label, Slider, Switch } from "@fluentui/react-components";
-import { SpinButton } from "@fluentui/react-components/unstable";
+import { Label, Slider, Switch, SpinButton } from "@fluentui/react-components";
 import { FC, useState } from "react";
 import { getSettings, saveSettings } from "../../Actions";
 
