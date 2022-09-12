@@ -1,13 +1,13 @@
 import { Text } from "@fluentui/react-components";
 import { FC } from "react";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
-import { getTheme } from "../../ColorThemes";
+import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultListItemIcon } from "./SearchResultListItemIcon";
 
 interface Props {
     searchResultItem: SearchResultItem;
     selected: boolean;
-    colorThemeName: string;
+    colorThemeName: ColorThemeName;
 }
 
 export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, colorThemeName }) => {

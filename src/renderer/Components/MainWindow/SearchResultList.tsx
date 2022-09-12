@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
+import { ColorThemeName } from "../../ColorThemes";
 import { SearchResultListItem } from "./SearchResultListItem";
 
 interface Props {
     searchResultItems: SearchResultItem[];
     selectedIndex: number;
-    colorThemeName: string;
+    colorThemeName: ColorThemeName;
 }
 
 export const SearchResultList: FC<Props> = ({ searchResultItems, selectedIndex, colorThemeName }) => (
