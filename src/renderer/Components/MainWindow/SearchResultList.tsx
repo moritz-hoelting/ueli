@@ -1,4 +1,3 @@
-import {} from "@fluentui/react-components";
 import { FC } from "react";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
 import { SearchResultListItem } from "./SearchResultListItem";
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const SearchResultList: FC<Props> = ({ searchResultItems, selectedIndex, colorThemeName }) => (
-    <div>
+    <>
         {searchResultItems.map((searchResultItem, index) => (
             <SearchResultListItem
                 key={`${searchResultItem.executionArgument}-${index === selectedIndex}`}
@@ -19,5 +18,5 @@ export const SearchResultList: FC<Props> = ({ searchResultItems, selectedIndex, 
                 colorThemeName={colorThemeName}
             />
         ))}
-    </div>
+    </>
 );
