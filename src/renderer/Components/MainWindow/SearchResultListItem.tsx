@@ -8,9 +8,17 @@ interface Props {
     searchResultItem: SearchResultItem;
     selected: boolean;
     colorThemeName: ColorThemeName;
+    onClick: () => void;
+    onDoubleClick: () => void;
 }
 
-export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, colorThemeName }) => {
+export const SearchResultListItem: FC<Props> = ({
+    searchResultItem,
+    selected,
+    colorThemeName,
+    onClick,
+    onDoubleClick,
+}) => {
     const elementRef = useRef<HTMLDivElement>(null);
     const colorTheme = getTheme(colorThemeName);
 
@@ -35,6 +43,8 @@ export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, co
                 background: selected ? colorTheme.colorBrandBackgroundStatic : undefined,
                 color: selected ? colorTheme.colorBrandBackgroundInverted : undefined,
             }}
+            onClick={onClick}
+            onDoubleClick={onDoubleClick}
         >
             <div>
                 <SearchResultListItemIcon icon={searchResultItem.icon} />

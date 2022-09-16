@@ -37,6 +37,9 @@ export const Main: FC = () => {
     const onEnterPressed = (ctrlOrMetaKeyPressed: boolean) =>
         executeSearchResultItem(searchResultItems[selectedIndex], ctrlOrMetaKeyPressed);
 
+    const onItemClicked = (itemIndex: number) => setSelectedIndex(itemIndex);
+    const onItemDoubleClicked = (itemIndex: number) => executeSearchResultItem(searchResultItems[itemIndex], false);
+
     const onNavigate = (navigationDirection: NavigationDirection) =>
         setSelectedIndex(calculateSelectedIndex(selectedIndex, searchResultItems.length, navigationDirection));
 
@@ -57,6 +60,8 @@ export const Main: FC = () => {
                         searchResultItems={searchResultItems}
                         selectedIndex={selectedIndex}
                         colorThemeName={colorThemeName}
+                        onClick={onItemClicked}
+                        onDoubleClick={onItemDoubleClicked}
                     />
                 </div>
             </div>

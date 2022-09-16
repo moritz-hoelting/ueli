@@ -7,9 +7,17 @@ interface Props {
     searchResultItems: SearchResultItem[];
     selectedIndex: number;
     colorThemeName: ColorThemeName;
+    onClick: (itemIndex: number) => void;
+    onDoubleClick: (itemIndex: number) => void;
 }
 
-export const SearchResultList: FC<Props> = ({ searchResultItems, selectedIndex, colorThemeName }) => (
+export const SearchResultList: FC<Props> = ({
+    searchResultItems,
+    selectedIndex,
+    colorThemeName,
+    onClick,
+    onDoubleClick,
+}) => (
     <>
         {searchResultItems.map((searchResultItem, index) => (
             <SearchResultListItem
@@ -17,6 +25,8 @@ export const SearchResultList: FC<Props> = ({ searchResultItems, selectedIndex, 
                 searchResultItem={searchResultItem}
                 selected={index === selectedIndex}
                 colorThemeName={colorThemeName}
+                onClick={() => onClick(index)}
+                onDoubleClick={() => onDoubleClick(index)}
             />
         ))}
     </>
