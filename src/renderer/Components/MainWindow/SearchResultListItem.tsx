@@ -1,5 +1,5 @@
 import { Text } from "@fluentui/react-components";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
 import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultListItemIcon } from "./SearchResultListItemIcon";
@@ -11,10 +11,20 @@ interface Props {
 }
 
 export const SearchResultListItem: FC<Props> = ({ searchResultItem, selected, colorThemeName }) => {
+    const elementRef = useRef<HTMLDivElement>(null);
     const colorTheme = getTheme(colorThemeName);
+
+    const scrollIntoViewIfSelected = () => {
+        if (selected) {
+            elementRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
+    useEffect(() => scrollIntoViewIfSelected(), [selected]);
 
     return (
         <div
+            ref={elementRef}
             style={{
                 display: "flex",
                 flexDirection: "row",

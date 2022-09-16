@@ -43,16 +43,16 @@ export const Main: FC = () => {
     useEffect(() => registerIpcEventListeners(), []);
 
     return (
-        <FluentProvider theme={getTheme(colorThemeName)} style={{ height: "100vh" }}>
-            <div>
-                <div>
+        <FluentProvider theme={getTheme(colorThemeName)}>
+            <div style={{ height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                <div style={{ flexShrink: 0 }}>
                     <UserInput
                         onSearchTermChanged={onSearchTermChanged}
                         onEnterPressed={onEnterPressed}
                         onNavigate={onNavigate}
                     />
                 </div>
-                <div>
+                <div style={{ flexGrow: 1, overflowX: "hidden", overflowY: "scroll" }}>
                     <SearchResultList
                         searchResultItems={searchResultItems}
                         selectedIndex={selectedIndex}
