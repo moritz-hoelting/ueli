@@ -1,5 +1,5 @@
 import { Label } from "@fluentui/react-components";
-import { Select } from "@fluentui/react-components/unstable";
+import { Dropdown, Option } from "@fluentui/react-components/unstable";
 import { FC } from "react";
 import { getSettings, saveSettings } from "../../Actions";
 import { ColorThemeName } from "../../ColorThemes";
@@ -29,20 +29,17 @@ export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, on
     return (
         <div>
             <Label htmlFor="color-theme">Color Theme</Label>
-            <Select
+            <Dropdown
                 id="color-theme"
                 value={colorTheme}
-                onChange={(_event) => {
-                    const updatedColorThemeName = _event.target.value as ColorThemeName;
-                    changeColorThemeName(updatedColorThemeName);
-                }}
+                onOptionSelect={(_, { optionValue }) => changeColorThemeName(optionValue as ColorThemeName)}
             >
                 {options.map(({ value, label }, index) => (
-                    <option key={`${label}-${value}-${index}`} value={value}>
+                    <Option key={`${label}-${value}-${index}`} value={value}>
                         {label}
-                    </option>
+                    </Option>
                 ))}
-            </Select>
+            </Dropdown>
         </div>
     );
 };
