@@ -31,7 +31,7 @@ export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, on
             <Label htmlFor="color-theme">Color Theme</Label>
             <Dropdown
                 id="color-theme"
-                value={colorTheme}
+                selectedOptions={[colorTheme]}
                 onOptionSelect={(_, { optionValue }) => changeColorThemeName(optionValue as ColorThemeName)}
             >
                 {options.map(({ value, label }, index) => (
