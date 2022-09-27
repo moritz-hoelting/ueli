@@ -1,7 +1,8 @@
+import { Mock, Times } from "moq.ts";
 import { ConsoleLogger } from "../../common/Logger/ConsoleLogger";
 import { Settings } from "../../common/Settings/Settings";
-import { DummySettingsRepository } from "./DummySettingsRepository";
 import { SettingsManager } from "./SettingsManager";
+import { SettingsRepository } from "./SettingsRepository";
 
 describe(SettingsManager, () => {
     const logger = new ConsoleLogger();
@@ -16,17 +17,26 @@ describe(SettingsManager, () => {
         },
     };
 
+    let settingsRepository: Mock<SettingsRepository>;
+
+    beforeEach(() => {
+        settingsRepository = new Mock<SettingsRepository>();
+    });
+
     describe(SettingsManager.prototype.getSettings, () => {
         it("should return default settings when repository returns `undefined`", () => {
-            const settingsRepository = new DummySettingsRepository(undefined);
-            const settingsManager = new SettingsManager(settingsRepository, defaultSettings, logger);
+            settingsRepository.setup((instance) => instance.readSettings()).returns(undefined);
+            const settingsManager = new SettingsManager(settingsRepository.object(), defaultSettings, logger);
             expect(settingsManager.getSettings()).toEqual(defaultSettings);
         });
 
         it("should merge user settings with default when repository returns some settings", () => {
-            const userSettings = <Settings>{ generalSettings: { hideWindowOnBlur: false } };
-            const settingsRepository = new DummySettingsRepository(userSettings);
-            const settingsManager = new SettingsManager(settingsRepository, defaultSettings, logger);
+            settingsRepository
+                .setup((instance) => instance.readSettings())
+                .returns(<Settings>{ generalSettings: { hideWindowOnBlur: false } });
+
+            const settingsManager = new SettingsManager(settingsRepository.object(), defaultSettings, logger);
+
             expect(settingsManager.getSettings()).toEqual(<Settings>{
                 generalSettings: {
                     hideWindowOnBlur: false,
@@ -42,11 +52,13 @@ describe(SettingsManager, () => {
 
     describe(SettingsManager.prototype.updateSettings, () => {
         it("should update settings on the repository", () => {
-            const settingsRepository = new DummySettingsRepository(undefined);
-            const settingsManager = new SettingsManager(settingsRepository, defaultSettings, logger);
             const updatedSettings = <Settings>{ generalSettings: { hideWindowOnBlur: false } };
-            settingsManager.updateSettings(updatedSettings);
-            expect(settingsRepository.settings).toEqual(updatedSettings);
+
+            settingsRepository.setup((instance) => instance.writeSettings(updatedSettings)).returns(Promise.resolve());
+
+            new SettingsManager(settingsRepository.object(), defaultSettings, logger).updateSettings(updatedSettings);
+
+            settingsRepository.verify((instance) => instance.writeSettings(updatedSettings), Times.Once());
         });
     });
 });
