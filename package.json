@@ -52,6 +52,7 @@
         "fs-extra": "^10.1.0",
         "fuse.js": "^6.6.2",
         "jest": "^28.1.0",
+        "moq.ts": "^9.0.2",
         "node-powershell": "^4.0.0",
         "prettier": "^2.6.2",
         "react": "^18.1.0",
