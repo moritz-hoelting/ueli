@@ -1,6 +1,6 @@
 import { Label, Switch } from "@fluentui/react-components";
 import { FC } from "react";
-import { ObjectUtility } from "../../../common/ObjectUtility";
+import { SettingsBuilder } from "../../../common/Settings/SettingsBuilder";
 import { Context } from "./Context";
 
 export const GeneralSettings: FC = () => {
@@ -13,11 +13,9 @@ export const GeneralSettings: FC = () => {
                         <Switch
                             id="hide-window-on-blur"
                             checked={settings.generalSettings.hideWindowOnBlur}
-                            onChange={(_, { checked }) => {
-                                const x = ObjectUtility.clone(settings);
-                                x.generalSettings.hideWindowOnBlur = checked;
-                                settingsUpdated(x);
-                            }}
+                            onChange={(_, { checked }) =>
+                                settingsUpdated(new SettingsBuilder(settings).setHideWindowOnBlur(checked).build())
+                            }
                         />
                     </div>
                 </div>

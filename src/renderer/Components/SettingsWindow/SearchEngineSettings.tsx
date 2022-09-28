@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Label, Slider, Switch, SpinButton } from "@fluentui/react-components";
 import { Context } from "./Context";
-import { ObjectUtility } from "../../../common/ObjectUtility";
+import { SettingsBuilder } from "../../../common/Settings/SettingsBuilder";
 
 export const SearchEngineSettings: FC = () => {
     return (
@@ -16,11 +16,9 @@ export const SearchEngineSettings: FC = () => {
                             max={1}
                             step={0.1}
                             value={settings.searchEngineSettings.threshold}
-                            onChange={(_event, { value }) => {
-                                const x = ObjectUtility.clone(settings);
-                                x.searchEngineSettings.threshold = value;
-                                settingsUpdated(x);
-                            }}
+                            onChange={(_event, { value }) =>
+                                settingsUpdated(new SettingsBuilder(settings).setSearchEngineThreshold(value).build())
+                            }
                         />
                     </div>
                     <div>
@@ -28,11 +26,11 @@ export const SearchEngineSettings: FC = () => {
                         <Switch
                             id="automatic-rescan-enabled"
                             checked={settings.searchEngineSettings.automaticRescanEnabled}
-                            onChange={(_, { checked }) => {
-                                const x = ObjectUtility.clone(settings);
-                                x.searchEngineSettings.automaticRescanEnabled = checked;
-                                settingsUpdated(x);
-                            }}
+                            onChange={(_, { checked }) =>
+                                settingsUpdated(
+                                    new SettingsBuilder(settings).setSearchEngineAutomaticRescanEnabled(checked).build()
+                                )
+                            }
                         />
                     </div>
                     {settings.searchEngineSettings.automaticRescanEnabled ? (
@@ -44,9 +42,11 @@ export const SearchEngineSettings: FC = () => {
                                 value={settings.searchEngineSettings.automaticRescanIntervalInSeconds}
                                 onChange={(_, { displayValue }) => {
                                     if (displayValue) {
-                                        const x = ObjectUtility.clone(settings);
-                                        x.searchEngineSettings.automaticRescanIntervalInSeconds = Number(displayValue);
-                                        settingsUpdated(x);
+                                        settingsUpdated(
+                                            new SettingsBuilder(settings)
+                                                .setSearchEngineAutomaticRescanIntervalInSeconds(Number(displayValue))
+                                                .build()
+                                        );
                                     }
                                 }}
                             />
