@@ -30,7 +30,6 @@ export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, on
         <div>
             <Label htmlFor="color-theme">Color Theme</Label>
             <Dropdown
-                id="color-theme"
                 selectedOptions={[colorTheme]}
                 onOptionSelect={(_, { optionValue }) => changeColorThemeName(optionValue as ColorThemeName)}
             >
