@@ -1,18 +1,23 @@
 import { FluentProvider } from "@fluentui/react-components";
 import { FC, useEffect, useState } from "react";
+import { ExecutionContext } from "../../../common/ExecutionContext";
 import { IpcChannel } from "../../../common/IpcChannel";
 import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem";
 import { Settings } from "../../../common/Settings/Settings";
-import { getSettings } from "../../Actions";
 import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultList } from "./SearchResultList";
 import { calculateSelectedIndex, NavigationDirection } from "./SearchResultListUtility";
 import { UserInput } from "./UserInput";
 
-export const Main: FC = () => {
+interface Props {
+    settings: Settings;
+    executionContext: ExecutionContext;
+}
+
+export const Main: FC<Props> = ({ settings }) => {
     const [searchResultItems, setSearchResultItems] = useState<SearchResultItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    const [colorThemeName, setColorTheme] = useState<ColorThemeName>(getSettings().appearanceSettings.colorThemeName);
+    const [colorThemeName, setColorTheme] = useState<ColorThemeName>(settings.appearanceSettings.colorThemeName);
 
     const registerIpcEventListeners = () =>
         window.Bridge.ipcRenderer.on<Settings>(IpcChannel.SettingsUpdated, (_, { appearanceSettings }) =>
