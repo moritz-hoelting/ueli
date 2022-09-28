@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { CSSProperties, FC, useState } from "react";
 import { FluentProvider } from "@fluentui/react-components";
 import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { Navigation } from "./Navigation";
@@ -7,16 +7,23 @@ import { GeneralSettings } from "./GeneralSettings";
 import { SearchEngineSettings } from "./SearchEngineSettings";
 import { AppearanceSettings } from "./AppearanceSettings";
 import { About } from "./About";
-import { ExecutionContext } from "../../../common/ExecutionContext";
-import { Settings as UserSettings } from "../../../common/Settings/Settings";
+import { getExecutionContext, getSettings } from "../../Actions";
 
-interface Props {
-    settings: UserSettings;
-    executionContext: ExecutionContext;
-}
+export const Settings: FC = () => {
+    const executionContext = getExecutionContext();
+    const settings = getSettings();
 
-export const Settings: FC<Props> = ({ executionContext, settings }) => {
     const [colorThemeName, setColorThemeName] = useState<ColorThemeName>(settings.appearanceSettings.colorThemeName);
+    const [hideWindowOnBlur, setHideWindowOnBlur] = useState<boolean>(settings.generalSettings.hideWindowOnBlur);
+    const [threshold, setThreshold] = useState<number>(settings.searchEngineSettings.threshold);
+
+    const [automaticRescanEnabled, setAutomaticRescanEnabled] = useState<boolean>(
+        settings.searchEngineSettings.automaticRescanEnabled
+    );
+
+    const [automaticRescanIntervalInSeconds, setAutomaticRescanIntervalInSeconds] = useState<number>(
+        settings.searchEngineSettings.automaticRescanIntervalInSeconds
+    );
 
     const routes: { path: string; element: JSX.Element }[] = [
         {
@@ -25,23 +32,33 @@ export const Settings: FC<Props> = ({ executionContext, settings }) => {
         },
         {
             path: "/appearance",
-            element: <AppearanceSettings colorTheme={colorThemeName} onColorThemeChanged={setColorThemeName} />,
+            element: <AppearanceSettings colorThemeName={colorThemeName} colorThemeNameUpdated={setColorThemeName} />,
         },
         {
             path: "/",
-            element: <GeneralSettings />,
+            element: (
+                <GeneralSettings hideWindowOnBlur={hideWindowOnBlur} hideWindowOnBlurUpdated={setHideWindowOnBlur} />
+            ),
         },
         {
             path: "/search-engine",
-            element: <SearchEngineSettings />,
+            element: (
+                <SearchEngineSettings
+                    automaticRescanEnabled={automaticRescanEnabled}
+                    automaticRescanEnabledUpdated={setAutomaticRescanEnabled}
+                    automaticRescanInterval={automaticRescanIntervalInSeconds}
+                    automaticRescanIntervalUpdated={setAutomaticRescanIntervalInSeconds}
+                    threshold={threshold}
+                    thresholdUpdated={setThreshold}
+                />
+            ),
         },
     ];
 
+    const fluentProviderStyle: CSSProperties = { height: "100vh", padding: 10, boxSizing: "border-box" };
+
     return (
-        <FluentProvider
-            theme={getTheme(colorThemeName)}
-            style={{ height: "100vh", padding: 10, boxSizing: "border-box" }}
-        >
+        <FluentProvider theme={getTheme(colorThemeName)} style={fluentProviderStyle}>
             <div style={{ display: "flex", flexDirection: "row", gap: 20 }}>
                 <Navigation />
                 <div style={{ flexGrow: 1 }}>

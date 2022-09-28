@@ -1,23 +1,20 @@
 import { Label, Switch } from "@fluentui/react-components";
-import { FC, useState } from "react";
-import { getSettings, saveSettings } from "../../Actions";
+import { FC } from "react";
 
-export const GeneralSettings: FC = () => {
-    const settings = getSettings();
-    const [hideWindowOnBlur, setHideWindowOnBlur] = useState<boolean>(settings.generalSettings.hideWindowOnBlur);
+interface Props {
+    hideWindowOnBlur: boolean;
+    hideWindowOnBlurUpdated: (updatedValue: boolean) => void;
+}
 
-    const toggleHideWindowOnBlur = async () => {
-        settings.generalSettings.hideWindowOnBlur = !hideWindowOnBlur;
-        setHideWindowOnBlur(settings.generalSettings.hideWindowOnBlur);
-        await saveSettings(settings);
-    };
-
-    return (
+export const GeneralSettings: FC<Props> = ({ hideWindowOnBlur, hideWindowOnBlurUpdated }) => (
+    <div>
         <div>
-            <div>
-                <Label htmlFor="hide-window-on-blur">Hide window on blur</Label>
-                <Switch id="hide-window-on-blur" checked={hideWindowOnBlur} onChange={() => toggleHideWindowOnBlur()} />
-            </div>
+            <Label htmlFor="hide-window-on-blur">Hide window on blur</Label>
+            <Switch
+                id="hide-window-on-blur"
+                checked={hideWindowOnBlur}
+                onChange={(_, { checked }) => hideWindowOnBlurUpdated(checked)}
+            />
         </div>
-    );
-};
+    </div>
+);

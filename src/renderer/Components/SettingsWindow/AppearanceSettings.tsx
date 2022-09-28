@@ -1,17 +1,17 @@
 import { Label } from "@fluentui/react-components";
 import { Dropdown, Option } from "@fluentui/react-components/unstable";
 import { FC } from "react";
-import { getSettings, saveSettings } from "../../Actions";
 import { ColorThemeName } from "../../ColorThemes";
 
 interface AppearanceSettingsProps {
-    colorTheme: string;
-    onColorThemeChanged: (colorThemeName: ColorThemeName) => void;
+    colorThemeName: string;
+    colorThemeNameUpdated: (colorThemeName: ColorThemeName) => void;
 }
 
-export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, onColorThemeChanged }) => {
-    const settings = getSettings();
-
+export const AppearanceSettings: FC<AppearanceSettingsProps> = ({
+    colorThemeName: colorTheme,
+    colorThemeNameUpdated: onColorThemeChanged,
+}) => {
     const options: { label: string; value: ColorThemeName }[] = [
         { label: "Web Light", value: "Web Light" },
         { label: "Web Dark", value: "Web Dark" },
@@ -20,11 +20,7 @@ export const AppearanceSettings: FC<AppearanceSettingsProps> = ({ colorTheme, on
         { label: "Teams High Contrast", value: "Teams High Contrast" },
     ];
 
-    const changeColorThemeName = async (updatedColorThemeName: ColorThemeName) => {
-        settings.appearanceSettings.colorThemeName = updatedColorThemeName;
-        onColorThemeChanged(settings.appearanceSettings.colorThemeName);
-        await saveSettings(settings);
-    };
+    const changeColorThemeName = (updatedColorThemeName: ColorThemeName) => onColorThemeChanged(updatedColorThemeName);
 
     return (
         <div>
