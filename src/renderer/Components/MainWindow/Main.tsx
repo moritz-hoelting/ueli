@@ -24,9 +24,9 @@ export const Main: FC<Props> = ({ settings }) => {
             setColorTheme(appearanceSettings.colorThemeName)
         );
 
-    const executeSearchResultItem = (searchResultItem: SearchResultItem, openLocation: boolean): Promise<void> => {
+    const executeSearchResultItem = async (searchResultItem: SearchResultItem, openLocation: boolean) => {
         const ipcChannel = openLocation ? IpcChannel.OpenLocation : IpcChannel.Execute;
-        return window.Bridge.ipcRenderer.invoke<SearchResultItem, void>(ipcChannel, searchResultItem);
+        await window.Bridge.ipcRenderer.invoke<SearchResultItem, void>(ipcChannel, searchResultItem);
     };
 
     const onSearchTermChanged = async (searchTerm: string) => {
