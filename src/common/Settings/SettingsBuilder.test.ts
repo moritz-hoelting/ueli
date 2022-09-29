@@ -4,7 +4,7 @@ import { SettingsBuilder } from "./SettingsBuilder";
 describe(SettingsBuilder, () => {
     describe(SettingsBuilder.prototype.build, () => {
         it("should correctly build settings object", () => {
-            const actual = new SettingsBuilder(<Settings>{
+            const actual = SettingsBuilder.fromSettings(<Settings>{
                 appearanceSettings: {},
                 generalSettings: {},
                 searchEngineSettings: {},

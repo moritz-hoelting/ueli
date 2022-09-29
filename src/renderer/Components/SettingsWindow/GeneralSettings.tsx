@@ -14,7 +14,7 @@ export const GeneralSettings: FC = () => {
                     id="hide-window-on-blur"
                     checked={settings.generalSettings.hideWindowOnBlur}
                     onChange={(_, { checked }) =>
-                        settingsUpdated(new SettingsBuilder(settings).setHideWindowOnBlur(checked).build())
+                        settingsUpdated(SettingsBuilder.fromSettings(settings).setHideWindowOnBlur(checked).build())
                     }
                 />
             </div>

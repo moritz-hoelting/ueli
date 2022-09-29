@@ -23,7 +23,9 @@ export const AppearanceSettings: FC = () => {
                 selectedOptions={[settings.appearanceSettings.colorThemeName]}
                 onOptionSelect={(_, { optionValue }) =>
                     settingsUpdated(
-                        new SettingsBuilder(settings).setColorThemeName(optionValue as ColorThemeName).build()
+                        SettingsBuilder.fromSettings(settings)
+                            .setColorThemeName(optionValue as ColorThemeName)
+                            .build()
                     )
                 }
             >

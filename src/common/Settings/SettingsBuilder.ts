@@ -5,8 +5,12 @@ import { Settings } from "./Settings";
 export class SettingsBuilder {
     private settings: Settings;
 
-    public constructor(settings: Settings) {
+    private constructor(settings: Settings) {
         this.settings = ObjectUtility.clone(settings);
+    }
+
+    public static fromSettings(settings: Settings): SettingsBuilder {
+        return new SettingsBuilder(settings);
     }
 
     public setHideWindowOnBlur(value: boolean): SettingsBuilder {

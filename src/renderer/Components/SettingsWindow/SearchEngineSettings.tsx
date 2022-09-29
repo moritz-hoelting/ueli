@@ -17,7 +17,7 @@ export const SearchEngineSettings: FC = () => {
                     step={0.1}
                     value={settings.searchEngineSettings.threshold}
                     onChange={(_event, { value }) =>
-                        settingsUpdated(new SettingsBuilder(settings).setSearchEngineThreshold(value).build())
+                        settingsUpdated(SettingsBuilder.fromSettings(settings).setSearchEngineThreshold(value).build())
                     }
                 />
             </div>
@@ -28,7 +28,9 @@ export const SearchEngineSettings: FC = () => {
                     checked={settings.searchEngineSettings.automaticRescanEnabled}
                     onChange={(_, { checked }) =>
                         settingsUpdated(
-                            new SettingsBuilder(settings).setSearchEngineAutomaticRescanEnabled(checked).build()
+                            SettingsBuilder.fromSettings(settings)
+                                .setSearchEngineAutomaticRescanEnabled(checked)
+                                .build()
                         )
                     }
                 />
@@ -43,7 +45,7 @@ export const SearchEngineSettings: FC = () => {
                         onChange={(_, { displayValue }) => {
                             if (displayValue) {
                                 settingsUpdated(
-                                    new SettingsBuilder(settings)
+                                    SettingsBuilder.fromSettings(settings)
                                         .setSearchEngineAutomaticRescanIntervalInSeconds(Number(displayValue))
                                         .build()
                                 );
