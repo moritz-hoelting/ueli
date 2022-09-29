@@ -3,14 +3,10 @@ import { ObjectUtility } from "../ObjectUtility";
 import { Settings } from "./Settings";
 
 export class SettingsBuilder {
-    private settings: Settings;
-
-    private constructor(settings: Settings) {
-        this.settings = ObjectUtility.clone(settings);
-    }
+    private constructor(private settings: Settings) {}
 
     public static fromSettings(settings: Settings): SettingsBuilder {
-        return new SettingsBuilder(settings);
+        return new SettingsBuilder(ObjectUtility.clone(settings));
     }
 
     public setHideWindowOnBlur(value: boolean): SettingsBuilder {
