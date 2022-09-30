@@ -1,11 +1,12 @@
 import { OperatingSystem } from "../common/OperatingSystem/OperatingSystem";
 
 export interface ExecutionContext {
-    operatingSystem: OperatingSystem;
+    applicationVersion: string;
+    electronVersion: string;
     executablePath: string;
+    isPackaged: boolean;
+    operatingSystem: OperatingSystem;
     temporaryDirectoryPath: string;
     userDataPath: string;
     userHomePath: string;
-    applicationVersion: string;
-    electronVersion: string;
 }

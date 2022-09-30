@@ -9,33 +9,36 @@ export class ExecutionContextFactory {
         electronVersion: string
     ): ExecutionContext {
         return {
-            operatingSystem: operatingSystem,
+            applicationVersion: electronApp.getVersion(),
+            electronVersion: electronVersion,
             executablePath: electronApp.getPath("exe"),
+            isPackaged: electronApp.isPackaged,
+            operatingSystem: operatingSystem,
             temporaryDirectoryPath: electronApp.getPath("temp"),
             userDataPath: electronApp.getPath("userData"),
             userHomePath: electronApp.getPath("home"),
-            applicationVersion: electronApp.getVersion(),
-            electronVersion: electronVersion,
         };
     }
 
     public static fromDummy({
-        operatingSystem = OperatingSystem.Windows,
+        applicationVersion = "",
+        electronVersion = "",
         executablePath = "",
+        isPackaged = false,
+        operatingSystem = OperatingSystem.Windows,
         temporaryDirectoryPath = "",
         userDataPath = "",
         userHomePath = "",
-        applicationVersion = "",
-        electronVersion = "",
     } = {}): ExecutionContext {
         return {
-            operatingSystem: operatingSystem,
+            applicationVersion: applicationVersion,
+            electronVersion: electronVersion,
             executablePath: executablePath,
+            isPackaged: isPackaged,
+            operatingSystem: operatingSystem,
             temporaryDirectoryPath: temporaryDirectoryPath,
             userDataPath: userDataPath,
             userHomePath: userHomePath,
-            applicationVersion: applicationVersion,
-            electronVersion: electronVersion,
         };
     }
 }

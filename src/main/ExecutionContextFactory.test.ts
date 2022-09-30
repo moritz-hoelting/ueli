@@ -10,6 +10,7 @@ describe(ExecutionContextFactory, () => {
     const electronApp = <App>{
         getPath: (name) => name,
         getVersion: () => applicationVersion,
+        isPackaged: false,
     };
 
     describe(ExecutionContextFactory.fromElectronApp, () => {
@@ -20,32 +21,35 @@ describe(ExecutionContextFactory, () => {
                 electronVersion
             );
 
+            expect(executionContext.applicationVersion).toBe(applicationVersion);
+            expect(executionContext.electronVersion).toBe(electronVersion);
             expect(executionContext.executablePath).toBe("exe");
+            expect(executionContext.isPackaged).toBe(false);
             expect(executionContext.temporaryDirectoryPath).toBe("temp");
             expect(executionContext.userDataPath).toBe("userData");
             expect(executionContext.userHomePath).toBe("home");
-            expect(executionContext.applicationVersion).toBe(applicationVersion);
-            expect(executionContext.electronVersion).toBe(electronVersion);
         });
     });
 
     describe(ExecutionContextFactory.fromDummy, () => {
         it("should set the correct public properties", () => {
             const executionContext = ExecutionContextFactory.fromDummy({
-                operatingSystem: OperatingSystem.macOS,
+                applicationVersion: "1.2.3",
                 executablePath: "exe",
+                isPackaged: true,
+                operatingSystem: OperatingSystem.macOS,
                 temporaryDirectoryPath: "temp",
                 userDataPath: "userData",
                 userHomePath: "home",
-                applicationVersion: "1.2.3",
             });
 
-            expect(executionContext.operatingSystem).toBe(OperatingSystem.macOS);
+            expect(executionContext.applicationVersion).toBe("1.2.3");
             expect(executionContext.executablePath).toBe("exe");
+            expect(executionContext.isPackaged).toBe(true);
+            expect(executionContext.operatingSystem).toBe(OperatingSystem.macOS);
             expect(executionContext.temporaryDirectoryPath).toBe("temp");
             expect(executionContext.userDataPath).toBe("userData");
             expect(executionContext.userHomePath).toBe("home");
-            expect(executionContext.applicationVersion).toBe("1.2.3");
         });
     });
 });
