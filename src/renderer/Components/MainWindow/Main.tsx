@@ -17,11 +17,13 @@ interface Props {
 export const Main: FC<Props> = ({ settings }) => {
     const [searchResultItems, setSearchResultItems] = useState<SearchResultItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    const [colorThemeName, setColorTheme] = useState<ColorThemeName>(settings.appearanceSettings.colorThemeName);
+    const [colorThemeName, setColorTheme] = useState<ColorThemeName>(
+        settings["appearance.colorThemeName"] as ColorThemeName
+    );
 
     const registerIpcEventListeners = () =>
-        window.Bridge.ipcRenderer.on<Settings>(IpcChannel.SettingsUpdated, (_, { appearanceSettings }) =>
-            setColorTheme(appearanceSettings.colorThemeName)
+        window.Bridge.ipcRenderer.on<Settings>(IpcChannel.SettingsUpdated, (_, settings) =>
+            setColorTheme(settings["appearance.colorThemeName"] as ColorThemeName)
         );
 
     const executeSearchResultItem = async (searchResultItem: SearchResultItem, openLocation: boolean) => {

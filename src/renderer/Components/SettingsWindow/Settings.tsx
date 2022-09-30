@@ -1,6 +1,6 @@
 import { CSSProperties, FC, useContext } from "react";
 import { FluentProvider } from "@fluentui/react-components";
-import { getTheme } from "../../ColorThemes";
+import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { Navigation } from "./Navigation";
 import { Route, Routes } from "react-router-dom";
 import { GeneralSettings } from "./GeneralSettings";
@@ -22,7 +22,10 @@ export const Settings: FC = () => {
     const fluentProviderStyle: CSSProperties = { height: "100vh", padding: 10, boxSizing: "border-box" };
 
     return (
-        <FluentProvider theme={getTheme(settings.appearanceSettings.colorThemeName)} style={fluentProviderStyle}>
+        <FluentProvider
+            theme={getTheme(settings["appearance.colorThemeName"] as ColorThemeName)}
+            style={fluentProviderStyle}
+        >
             <div style={{ display: "flex", flexDirection: "row", gap: 20 }}>
                 <Navigation />
                 <div style={{ flexGrow: 1 }}>

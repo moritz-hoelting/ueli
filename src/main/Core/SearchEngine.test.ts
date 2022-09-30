@@ -2,7 +2,7 @@ import { IMock, Mock, Times } from "moq.ts";
 import { join } from "path";
 import { Logger } from "../../common/Logger/Logger";
 import { SearchResultItemDummy } from "../../common/SearchResult/SearchResultItemDummy";
-import { SearchEngineSettings } from "../../common/Settings/SearchEngineSettings";
+import { Settings } from "../../common/Settings/Settings";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { FileSystemUtility } from "../Utilities/FileSystemUtility";
 import { DummySearchable } from "./DummySearchable";
@@ -15,10 +15,10 @@ describe(SearchEngine, () => {
 
     const tempFolderPath = join(__dirname, "temp");
 
-    const searchEngineSettings: SearchEngineSettings = {
-        automaticRescanEnabled: false,
-        automaticRescanIntervalInSeconds: 0,
-        threshold: 0.4,
+    const searchEngineSettings: Settings = <Settings>{
+        "searchEngine.automaticRescanEnabled": false,
+        "searchEngine.automaticRescanIntervalInSeconds": 0,
+        "searchEngine.threshold": 0.4,
     };
 
     const searchables: Searchable[] = [
@@ -126,7 +126,11 @@ describe(SearchEngine, () => {
 
         it("should support fuzzy search if threshold is high enough", async () => {
             const searchEngine = new SearchEngine(
-                { threshold: 0.6, automaticRescanIntervalInSeconds: 0, automaticRescanEnabled: false },
+                <Settings>{
+                    "searchEngine.threshold": 0.6,
+                    "searchEngine.automaticRescanIntervalInSeconds": 0,
+                    "searchEngine.automaticRescanEnabled": false,
+                },
                 [searchPlugin.object()],
                 logger.object()
             );
@@ -140,7 +144,11 @@ describe(SearchEngine, () => {
 
         it("should not supporty fuzzy search if threshold is 0", async () => {
             const searchEngine = new SearchEngine(
-                { threshold: 0, automaticRescanIntervalInSeconds: 0, automaticRescanEnabled: false },
+                <Settings>{
+                    "searchEngine.threshold": 0,
+                    "searchEngine.automaticRescanIntervalInSeconds": 0,
+                    "searchEngine.automaticRescanEnabled": false,
+                },
                 [searchPlugin.object()],
                 logger.object()
             );

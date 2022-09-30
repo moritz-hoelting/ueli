@@ -3,14 +3,15 @@ import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 import { getExecutionContext, getSettings, saveSettings } from "./Actions";
 import { Settings } from "./Components/SettingsWindow/Settings";
-import { Settings as UserSettings } from "../common/Settings/Settings";
+import { Settings as UserSettings, SettingsKey } from "../common/Settings/Settings";
 import { Context } from "./Components/SettingsWindow/Context";
 
 const App: FC = () => {
     const executionContext = getExecutionContext();
     const [settings, setSettings] = useState<UserSettings>(getSettings());
 
-    const settingsUpdated = (updatedSettings: UserSettings) => {
+    const settingsUpdated = (key: SettingsKey, value: unknown) => {
+        const updatedSettings = { ...settings, ...{ [key]: value } };
         setSettings(updatedSettings);
         saveSettings(updatedSettings);
     };

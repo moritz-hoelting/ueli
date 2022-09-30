@@ -2,7 +2,6 @@ import { BrowserWindow } from "electron";
 import { BrowserWindowConstructorOptions } from "electron/main";
 import { join } from "path";
 import { IpcChannel } from "../common/IpcChannel";
-import { ObjectUtility } from "../common/ObjectUtility";
 import { SettingsManager } from "./Settings/SettingsManager";
 
 export class WindowManager {
@@ -18,10 +17,10 @@ export class WindowManager {
     };
 
     private static readonly mergeWindowConstructorOptionsWithDefault = (options: BrowserWindowConstructorOptions) =>
-        Object.assign(
-            ObjectUtility.clone<BrowserWindowConstructorOptions>(WindowManager.browserWindowConstructorOptions),
-            ObjectUtility.clone<BrowserWindowConstructorOptions>(options)
-        );
+        <BrowserWindowConstructorOptions>{
+            ...WindowManager.browserWindowConstructorOptions,
+            ...options,
+        };
 
     private mainWindow?: BrowserWindow;
     private settingsWindow?: BrowserWindow;
@@ -112,6 +111,6 @@ export class WindowManager {
     }
 
     private shouldHideMainWindowOnBlur(): boolean {
-        return this.settingsManager.getSettings().generalSettings.hideWindowOnBlur;
+        return this.settingsManager.getSettings()["general.hideWindowOnBlur"] === true;
     }
 }

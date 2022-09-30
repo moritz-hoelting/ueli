@@ -1,7 +1,6 @@
 import { FC, useContext } from "react";
 import { Label, Slider, Switch, SpinButton } from "@fluentui/react-components";
 import { Context } from "./Context";
-import { SettingsBuilder } from "../../../common/Settings/SettingsBuilder";
 
 export const SearchEngineSettings: FC = () => {
     const { settings, settingsUpdated } = useContext(Context);
@@ -15,40 +14,28 @@ export const SearchEngineSettings: FC = () => {
                     min={0}
                     max={1}
                     step={0.1}
-                    value={settings.searchEngineSettings.threshold}
-                    onChange={(_event, { value }) =>
-                        settingsUpdated(SettingsBuilder.fromSettings(settings).setSearchEngineThreshold(value).build())
-                    }
+                    value={settings["searchEngine.threshold"] as number}
+                    onChange={(_event, { value }) => settingsUpdated("searchEngine.threshold", value)}
                 />
             </div>
             <div>
                 <Label htmlFor="automatic-rescan-enabled">Automatic Rescan</Label>
                 <Switch
                     id="automatic-rescan-enabled"
-                    checked={settings.searchEngineSettings.automaticRescanEnabled}
-                    onChange={(_, { checked }) =>
-                        settingsUpdated(
-                            SettingsBuilder.fromSettings(settings)
-                                .setSearchEngineAutomaticRescanEnabled(checked)
-                                .build()
-                        )
-                    }
+                    checked={settings["searchEngine.automaticRescanEnabled"] as boolean}
+                    onChange={(_, { checked }) => settingsUpdated("searchEngine.automaticRescanEnabled", checked)}
                 />
             </div>
-            {settings.searchEngineSettings.automaticRescanEnabled ? (
+            {(settings["searchEngine.automaticRescanEnabled"] as boolean) ? (
                 <div>
                     <Label htmlFor="automaticRescanInterval">Automatic Rescan Interval (in seconds)</Label>
                     <SpinButton
                         id="automaticRescanInterval"
                         min={10}
-                        value={settings.searchEngineSettings.automaticRescanIntervalInSeconds}
+                        value={settings["searchEngine.automaticRescanIntervalInSeconds"] as number}
                         onChange={(_, { displayValue }) => {
                             if (displayValue) {
-                                settingsUpdated(
-                                    SettingsBuilder.fromSettings(settings)
-                                        .setSearchEngineAutomaticRescanIntervalInSeconds(Number(displayValue))
-                                        .build()
-                                );
+                                settingsUpdated("searchEngine.automaticRescanIntervalInSeconds", Number(displayValue));
                             }
                         }}
                     />

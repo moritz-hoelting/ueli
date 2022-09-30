@@ -1,6 +1,5 @@
 import { Label, Switch } from "@fluentui/react-components";
 import { FC, useContext } from "react";
-import { SettingsBuilder } from "../../../common/Settings/SettingsBuilder";
 import { Context } from "./Context";
 
 export const GeneralSettings: FC = () => {
@@ -12,10 +11,8 @@ export const GeneralSettings: FC = () => {
                 <Label htmlFor="hide-window-on-blur">Hide window on blur</Label>
                 <Switch
                     id="hide-window-on-blur"
-                    checked={settings.generalSettings.hideWindowOnBlur}
-                    onChange={(_, { checked }) =>
-                        settingsUpdated(SettingsBuilder.fromSettings(settings).setHideWindowOnBlur(checked).build())
-                    }
+                    checked={settings["general.hideWindowOnBlur"] as boolean}
+                    onChange={(_, { checked }) => settingsUpdated("general.hideWindowOnBlur", checked)}
                 />
             </div>
         </div>

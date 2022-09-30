@@ -174,7 +174,7 @@ export class MainApplication {
     }
 
     private async updateSettings(updatedSettings: Settings): Promise<void> {
-        await this.searchEngine.updateSettings(updatedSettings.searchEngineSettings);
+        await this.searchEngine.updateSettings(updatedSettings);
         this.windowManager.sendMessageToAllWindows(IpcChannel.SettingsUpdated, updatedSettings);
         return this.settingsManager.updateSettings(updatedSettings);
     }

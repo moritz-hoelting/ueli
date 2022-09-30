@@ -7,14 +7,10 @@ import { SettingsRepository } from "./SettingsRepository";
 describe(SettingsManager, () => {
     const logger = new ConsoleLogger();
     const defaultSettings = <Settings>{
-        generalSettings: {
-            hideWindowOnBlur: true,
-        },
-        searchEngineSettings: {
-            automaticRescanEnabled: true,
-            automaticRescanIntervalInSeconds: 300,
-            threshold: 0.5,
-        },
+        "general.hideWindowOnBlur": true,
+        "searchEngine.automaticRescanEnabled": true,
+        "searchEngine.automaticRescanIntervalInSeconds": 300,
+        "searchEngine.threshold": 0.5,
     };
 
     let settingsRepository: Mock<SettingsRepository>;
@@ -33,26 +29,22 @@ describe(SettingsManager, () => {
         it("should merge user settings with default when repository returns some settings", () => {
             settingsRepository
                 .setup((instance) => instance.readSettings())
-                .returns(<Settings>{ generalSettings: { hideWindowOnBlur: false } });
+                .returns(<Settings>{ "general.hideWindowOnBlur": false });
 
             const settingsManager = new SettingsManager(settingsRepository.object(), defaultSettings, logger);
 
             expect(settingsManager.getSettings()).toEqual(<Settings>{
-                generalSettings: {
-                    hideWindowOnBlur: false,
-                },
-                searchEngineSettings: {
-                    automaticRescanEnabled: true,
-                    automaticRescanIntervalInSeconds: 300,
-                    threshold: 0.5,
-                },
+                "general.hideWindowOnBlur": false,
+                "searchEngine.automaticRescanEnabled": true,
+                "searchEngine.automaticRescanIntervalInSeconds": 300,
+                "searchEngine.threshold": 0.5,
             });
         });
     });
 
     describe(SettingsManager.prototype.updateSettings, () => {
         it("should update settings on the repository", () => {
-            const updatedSettings = <Settings>{ generalSettings: { hideWindowOnBlur: false } };
+            const updatedSettings = <Settings>{ "general.hideWindowOnBlur": false };
 
             settingsRepository.setup((instance) => instance.writeSettings(updatedSettings)).returns(Promise.resolve());
 

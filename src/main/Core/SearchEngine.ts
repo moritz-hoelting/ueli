@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 import { Logger } from "../../common/Logger/Logger";
-import { SearchEngineSettings } from "../../common/Settings/SearchEngineSettings";
 import { SearchResultItem } from "../../common/SearchResult/SearchResultItem";
+import { Settings } from "../../common/Settings/Settings";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { Searchable } from "./Searchable";
 import { SearchEngineRescanError } from "./SearchEngineRescanError";
@@ -12,7 +12,7 @@ export class SearchEngine {
     private scheduledRescanTimeout?: number | NodeJS.Timeout;
 
     constructor(
-        private settings: SearchEngineSettings,
+        private settings: Settings,
         private readonly searchPlugins: SearchPlugin<unknown>[],
         private readonly logger: Logger
     ) {}
@@ -31,7 +31,10 @@ export class SearchEngine {
 
         return new Fuse(
             this.getAllSearchables().map((searchable) => searchable.toSearchResultItem()),
-            { threshold: this.settings.threshold, keys: ["name"] }
+            {
+                threshold: this.settings["searchEngine.threshold"] as number,
+                keys: ["name"],
+            }
         )
             .search(searchTerm)
             .map((fuseSearchResult) => fuseSearchResult.item);
@@ -52,8 +55,11 @@ export class SearchEngine {
             this.handleError(new SearchEngineRescanError(error));
         } finally {
             this.rescanPromise = undefined;
-            if (this.settings.automaticRescanEnabled && this.settings.automaticRescanIntervalInSeconds) {
-                this.scheduleRescan(this.settings.automaticRescanIntervalInSeconds);
+            if (
+                (this.settings["searchEngine.automaticRescanEnabled"] as boolean) &&
+                (this.settings["searchEngine.automaticRescanIntervalInSeconds"] as number)
+            ) {
+                this.scheduleRescan(this.settings["searchEngine.automaticRescanIntervalInSeconds"] as number);
             }
         }
     }
@@ -66,9 +72,12 @@ export class SearchEngine {
         }
     }
 
-    public async updateSettings(updatedSettings: SearchEngineSettings): Promise<void> {
+    public async updateSettings(updatedSettings: Settings): Promise<void> {
         if (this.automaticRescanOptionChanged(updatedSettings)) {
-            if (updatedSettings.automaticRescanEnabled && updatedSettings.automaticRescanIntervalInSeconds) {
+            if (
+                (updatedSettings["searchEngine.automaticRescanEnabled"] as boolean) &&
+                (updatedSettings["searchEngine.automaticRescanIntervalInSeconds"] as number)
+            ) {
                 await this.rescan();
             } else {
                 this.cancelScheduledRescan();
@@ -112,12 +121,14 @@ export class SearchEngine {
         this.logger.error(`Handled error: ${error.message}`);
     }
 
-    private automaticRescanOptionChanged(updatedSettings: SearchEngineSettings): boolean {
+    private automaticRescanOptionChanged(updatedSettings: Settings): boolean {
         const automaticRescanIntervalInSecondsOptionChanged =
-            updatedSettings.automaticRescanIntervalInSeconds !== this.settings.automaticRescanIntervalInSeconds;
+            (updatedSettings["searchEngine.automaticRescanIntervalInSeconds"] as number) !==
+            this.settings["searchEngine.automaticRescanIntervalInSeconds"];
 
         const automaticRescanEnabledOptionChanged =
-            updatedSettings.automaticRescanEnabled !== this.settings.automaticRescanEnabled;
+            (updatedSettings["searchEngine.automaticRescanEnabled"] as boolean) !==
+            this.settings["searchEngine.automaticRescanEnabled"];
 
         return automaticRescanIntervalInSecondsOptionChanged || automaticRescanEnabledOptionChanged;
     }

@@ -28,8 +28,9 @@ describe(FileSettingsRepository, () => {
     describe(FileSettingsRepository.prototype.writeSettings, () => {
         it("should write the settings to the specified JSON file", async () => {
             const fileSettingsRepository = new FileSettingsRepository(settingsFilePath);
-            await fileSettingsRepository.writeSettings(<Settings>{ searchEngineSettings: { threshold: 0.23123 } });
-            expect(fileSettingsRepository.readSettings()?.searchEngineSettings.threshold).toBe(0.23123);
+            await fileSettingsRepository.writeSettings(<Settings>{ "searchEngine.threshold": 0.23123 });
+            const settings = fileSettingsRepository.readSettings() as Settings;
+            expect(settings["searchEngine.threshold"]).toBe(0.23123);
         });
     });
 });

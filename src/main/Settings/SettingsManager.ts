@@ -1,7 +1,5 @@
 import { Logger } from "../../common/Logger/Logger";
-import { ObjectUtility } from "../../common/ObjectUtility";
 import { Settings } from "../../common/Settings/Settings";
-import { SettingsFactory } from "./SettingsFactory";
 import { SettingsRepository } from "./SettingsRepository";
 
 export class SettingsManager {
@@ -16,10 +14,7 @@ export class SettingsManager {
     }
 
     public getSettings(): Settings {
-        return SettingsFactory.createFromUserSettings(
-            ObjectUtility.toRecord<Settings>(this.userSettings ?? <Settings>{}),
-            this.defaultSettings
-        );
+        return this.mergeUserSettingsWithDefault(this.userSettings ?? <Settings>{});
     }
 
     public updateSettings(updatedSettings: Settings): Promise<void> {
@@ -34,5 +29,9 @@ export class SettingsManager {
             this.logger.error(`Failed to read user settings from settings file: Reason ${error}`);
             return undefined;
         }
+    }
+
+    private mergeUserSettingsWithDefault(userSettings: Settings): Settings {
+        return { ...this.defaultSettings, ...userSettings };
     }
 }

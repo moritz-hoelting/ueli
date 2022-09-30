@@ -33,11 +33,7 @@ const pluginRepository =
         ? new WindowsPluginRepository(executionContext)
         : new MacOsPluginRepository(executionContext);
 
-const searchEngine = new SearchEngine(
-    settingsManager.getSettings().searchEngineSettings,
-    pluginRepository.getAllPlugins(),
-    logger
-);
+const searchEngine = new SearchEngine(settingsManager.getSettings(), pluginRepository.getAllPlugins(), logger);
 
 const openFilePath = async (filePath: string): Promise<void> => {
     const errorMessage = await shell.openPath(filePath);

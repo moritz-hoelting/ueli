@@ -1,7 +1,6 @@
 import { Label } from "@fluentui/react-components";
 import { Dropdown, Option } from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
-import { SettingsBuilder } from "../../../common/Settings/SettingsBuilder";
 import { ColorThemeName } from "../../ColorThemes";
 import { Context } from "./Context";
 
@@ -20,13 +19,9 @@ export const AppearanceSettings: FC = () => {
         <div>
             <Label htmlFor="color-theme">Color Theme</Label>
             <Dropdown
-                selectedOptions={[settings.appearanceSettings.colorThemeName]}
+                selectedOptions={[settings["appearance.colorThemeName"] as ColorThemeName]}
                 onOptionSelect={(_, { optionValue }) =>
-                    settingsUpdated(
-                        SettingsBuilder.fromSettings(settings)
-                            .setColorThemeName(optionValue as ColorThemeName)
-                            .build()
-                    )
+                    settingsUpdated("appearance.colorThemeName", optionValue as ColorThemeName)
                 }
             >
                 {options.map(({ value, label }, index) => (
