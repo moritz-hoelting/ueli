@@ -7,7 +7,6 @@ import { OperatingSystemHelper } from "../common/OperatingSystem/OperatingSystem
 import { ExecutionService } from "./Core/ExecutionService";
 import { LocationOpeningService } from "./Core/LocationOpeningService";
 import { SearchEngine } from "./Core/SearchEngine";
-import { defaultSettings } from "./Settings/DefaultSettings";
 import { ExecutionContextFactory } from "./ExecutionContextFactory";
 import { FilePathExecutor } from "./Executors/FilePathExecutor";
 import { UeliCommandExecutor } from "./Executors/UeliCommandExecutor";
@@ -19,6 +18,7 @@ import { WindowsPluginRepository } from "./PluginRepository/WindowsPluginReposit
 import { SettingsManager } from "./Settings/SettingsManager";
 import { TrayIconManager } from "./TrayIconManager";
 import { WindowManager } from "./WindowManager";
+import { defaultSettings } from "../common/Settings/Settings";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
 const logger = new ConsoleLogger();
