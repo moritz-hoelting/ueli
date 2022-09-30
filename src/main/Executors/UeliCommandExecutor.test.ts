@@ -13,7 +13,6 @@ describe(UeliCommandExecutor, () => {
         const ipcMain = <IpcMain>{
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             emit: (eventName: string, ...args: any[]) => {
-                console.log(args);
                 events.push({ eventName, args });
             },
         };
