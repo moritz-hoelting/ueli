@@ -19,9 +19,10 @@ import { SettingsManager } from "./Settings/SettingsManager";
 import { TrayIconManager } from "./TrayIconManager";
 import { WindowManager } from "./WindowManager";
 import { defaultSettings } from "../common/Settings/Settings";
+import { Logger } from "../common/Logger/Logger";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
-const logger = new ConsoleLogger();
+const logger = new Logger("debug", [new ConsoleLogger()]);
 const executionContext = ExecutionContextFactory.fromElectronApp(operatingSystem, app, process.versions.electron);
 const fileSettingsRepository = new FileSettingsRepository(join(executionContext.userDataPath, "ueli9.settings.json"));
 const settingsManager = new SettingsManager(fileSettingsRepository, defaultSettings, logger);

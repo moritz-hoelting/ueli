@@ -1,21 +1,23 @@
-import { Logger } from "./Logger";
+import { LogLevel } from "./LogLevel";
+import { LogWriter } from "./LogWriter";
 
-export class ConsoleLogger implements Logger {
-    private static formatMessage = (message: string) => `${new Date().toLocaleTimeString()} - ${message}`;
+export class ConsoleLogger implements LogWriter {
+    public handleLog(level: LogLevel, message: string): void {
+        switch (level) {
+            case "debug":
+                return console.debug(message);
 
-    public debug(message: string): void {
-        console.debug(ConsoleLogger.formatMessage(message));
-    }
+            case "info":
+                return console.info(message);
 
-    public info(message: string): void {
-        console.info(ConsoleLogger.formatMessage(message));
-    }
+            case "warning":
+                return console.warn(message);
 
-    public warning(message: string): void {
-        console.warn(ConsoleLogger.formatMessage(message));
-    }
+            case "error":
+                return console.error(message);
 
-    public error(message: string): void {
-        console.error(ConsoleLogger.formatMessage(message));
+            default:
+                throw new Error(`Unsupported log level: ${level}`);
+        }
     }
 }
