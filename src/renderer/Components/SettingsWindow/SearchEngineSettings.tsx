@@ -1,5 +1,4 @@
 import { FC, useContext } from "react";
-import { Label, Switch, SpinButton } from "@fluentui/react-components";
 import { Context } from "./Context";
 import { SliderField, SpinButtonField, SwitchField } from "@fluentui/react-components/unstable";
 
