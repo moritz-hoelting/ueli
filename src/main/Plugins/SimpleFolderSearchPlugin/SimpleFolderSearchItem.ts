@@ -1,4 +1,4 @@
-export interface SimpleFolderSearchItem {
+export type SimpleFolderSearchItem = {
     filePath: string;
     iconDataUrl: string;
-}
+};

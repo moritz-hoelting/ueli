@@ -2,9 +2,9 @@ import { FC } from "react";
 import { SearchResultItemIcon } from "../../../common/SearchResult/SearchResultItemIcon";
 import { SearchResultItemIconType } from "../../../common/SearchResult/SearchResultItemIconType";
 
-interface Props {
+type Props = {
     icon: SearchResultItemIcon;
-}
+};
 
 export const SearchResultListItemIcon: FC<Props> = ({ icon }) => {
     const defaultElement = <></>;

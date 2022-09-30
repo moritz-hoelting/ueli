@@ -8,11 +8,11 @@ const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirectio
     ArrowUp: NavigationDirection.Previous,
 };
 
-interface Props {
+type Props = {
     onSearchTermChanged: (searchTerm: string) => void;
     onNavigate: (direction: NavigationDirection) => void;
     onEnterPressed: (ctrlOrMetaKeyPressed: boolean) => void;
-}
+};
 
 export const UserInput: FC<Props> = ({ onSearchTermChanged, onNavigate, onEnterPressed }) => {
     const userInputRef = useRef<HTMLInputElement>(null);

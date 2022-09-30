@@ -1,6 +1,6 @@
-export interface Logger {
+export type Logger = {
     debug(message: string): void;
     info(message: string): void;
     warning(message: string): void;
     error(message: string): void;
-}
+};

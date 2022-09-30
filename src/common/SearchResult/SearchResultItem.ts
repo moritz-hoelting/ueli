@@ -1,6 +1,6 @@
 import { SearchResultItemIcon } from "./SearchResultItemIcon";
 
-export interface SearchResultItem {
+export type SearchResultItem = {
     name: string;
     description: string;
     executionArgument: string;
@@ -8,4 +8,4 @@ export interface SearchResultItem {
     locationOpenerId: string;
     executorId: string;
     icon: SearchResultItemIcon;
-}
+};

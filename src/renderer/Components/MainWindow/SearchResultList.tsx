@@ -3,13 +3,13 @@ import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem"
 import { ColorThemeName } from "../../ColorThemes";
 import { SearchResultListItem } from "./SearchResultListItem";
 
-interface Props {
+type Props = {
     searchResultItems: SearchResultItem[];
     selectedIndex: number;
     colorThemeName: ColorThemeName;
     onClick: (itemIndex: number) => void;
     onDoubleClick: (itemIndex: number) => void;
-}
+};
 
 export const SearchResultList: FC<Props> = ({
     searchResultItems,

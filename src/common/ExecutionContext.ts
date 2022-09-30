@@ -1,6 +1,6 @@
 import { OperatingSystem } from "../common/OperatingSystem/OperatingSystem";
 
-export interface ExecutionContext {
+export type ExecutionContext = {
     applicationVersion: string;
     electronVersion: string;
     executablePath: string;
@@ -9,4 +9,4 @@ export interface ExecutionContext {
     temporaryDirectoryPath: string;
     userDataPath: string;
     userHomePath: string;
-}
+};

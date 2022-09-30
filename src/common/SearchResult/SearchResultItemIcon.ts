@@ -1,6 +1,6 @@
 import { SearchResultItemIconType } from "./SearchResultItemIconType";
 
-export interface SearchResultItemIcon {
+export type SearchResultItemIcon = {
     type: SearchResultItemIconType;
     icon: string;
-}
+};

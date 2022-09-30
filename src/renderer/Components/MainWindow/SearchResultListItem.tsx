@@ -4,13 +4,13 @@ import { SearchResultItem } from "../../../common/SearchResult/SearchResultItem"
 import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultListItemIcon } from "./SearchResultListItemIcon";
 
-interface Props {
+type Props = {
     searchResultItem: SearchResultItem;
     selected: boolean;
     colorThemeName: ColorThemeName;
     onClick: () => void;
     onDoubleClick: () => void;
-}
+};
 
 export const SearchResultListItem: FC<Props> = ({
     searchResultItem,

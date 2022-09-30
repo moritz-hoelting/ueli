@@ -9,10 +9,10 @@ import { SearchResultList } from "./SearchResultList";
 import { calculateSelectedIndex, NavigationDirection } from "./SearchResultListUtility";
 import { UserInput } from "./UserInput";
 
-interface Props {
+type Props = {
     settings: Settings;
     executionContext: ExecutionContext;
-}
+};
 
 export const Main: FC<Props> = ({ settings }) => {
     const [searchResultItems, setSearchResultItems] = useState<SearchResultItem[]>([]);

@@ -5,10 +5,10 @@ export enum RouteLabel {
     About = "About",
 }
 
-export interface Route {
+export type Route = {
     label: RouteLabel;
     path: string;
-}
+};
 
 export const routes: Route[] = [
     { label: RouteLabel.General, path: "/" },
