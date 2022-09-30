@@ -12,6 +12,8 @@ describe(FilePathExecutor, () => {
     });
 
     it("should fail if the file path opener rejects", async () => {
+        expect.assertions(1);
+
         try {
             await failingFilePathExecutor.execute(SearchResultItemDummy.empty());
         } catch (error) {

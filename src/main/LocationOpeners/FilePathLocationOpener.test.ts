@@ -8,7 +8,10 @@ describe(FilePathLocationOpener, () => {
     });
 
     it("should fail if the file path location opener rejects", async () => {
+        expect.assertions(1);
+
         const filePathLocationOpener = new FilePathLocationOpener(() => Promise.reject("Failed"));
+
         try {
             await filePathLocationOpener.openLocation(SearchResultItemDummy.empty());
         } catch (error) {
