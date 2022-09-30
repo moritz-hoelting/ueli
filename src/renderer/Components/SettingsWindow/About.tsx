@@ -1,3 +1,11 @@
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHeader,
+    TableHeaderCell,
+    TableRow,
+} from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
 import { Context } from "./Context";
 
@@ -5,9 +13,21 @@ export const About: FC = () => {
     const { executionContext } = useContext(Context);
 
     return (
-        <div>
-            <div>Version: {executionContext.applicationVersion}</div>
-            <div>Electron: {executionContext.electronVersion}</div>
-        </div>
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell key="application.version">Application Version</TableHeaderCell>
+                    <TableHeaderCell key="application.version">Electron Version</TableHeaderCell>
+                    <TableHeaderCell key="application.version">Packaged</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                    <TableCell>{executionContext.applicationVersion}</TableCell>
+                    <TableCell>{executionContext.electronVersion}</TableCell>
+                    <TableCell>{executionContext.isPackaged ? "Yes" : "No"}</TableCell>
+                </TableRow>
+            </TableBody>
+        </Table>
     );
 };

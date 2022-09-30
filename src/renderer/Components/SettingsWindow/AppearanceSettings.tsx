@@ -1,5 +1,5 @@
-import { Label } from "@fluentui/react-components";
-import { Dropdown, Option } from "@fluentui/react-components/unstable";
+import { Label, Radio } from "@fluentui/react-components";
+import { Dropdown, Option, RadioGroupField } from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
 import { ColorThemeName } from "../../ColorThemes";
 import { Context } from "./Context";
@@ -17,19 +17,15 @@ export const AppearanceSettings: FC = () => {
 
     return (
         <div>
-            <Label htmlFor="color-theme">Color Theme</Label>
-            <Dropdown
-                selectedOptions={[settings["appearance.colorThemeName"] as ColorThemeName]}
-                onOptionSelect={(_, { optionValue }) =>
-                    settingsUpdated("appearance.colorThemeName", optionValue as ColorThemeName)
-                }
+            <RadioGroupField
+                label="Color Theme"
+                value={settings["appearance.colorThemeName"] as ColorThemeName}
+                onChange={(_, { value }) => settingsUpdated("appearance.colorThemeName", value as ColorThemeName)}
             >
                 {options.map(({ value, label }, index) => (
-                    <Option key={`${label}-${value}-${index}`} value={value}>
-                        {label}
-                    </Option>
+                    <Radio key={`${label}-${value}-${index}`} value={value} label={label} />
                 ))}
-            </Dropdown>
+            </RadioGroupField>
         </div>
     );
 };
