@@ -1,7 +1,7 @@
 import { LogLevel } from "./LogLevel";
 import { LogWriter } from "./LogWriter";
 
-export class ConsoleLogger implements LogWriter {
+export class ConsoleLogWriter implements LogWriter {
     public handleLog(level: LogLevel, message: string): void {
         switch (level) {
             case "debug":

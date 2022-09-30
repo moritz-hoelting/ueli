@@ -1,7 +1,7 @@
 import { app, globalShortcut, ipcMain, shell } from "electron";
 import { platform } from "os";
 import { join } from "path";
-import { ConsoleLogger } from "../common/Logger/ConsoleLogger";
+import { ConsoleLogWriter } from "../common/Logger/ConsoleLogWriter";
 import { OperatingSystem } from "../common/OperatingSystem/OperatingSystem";
 import { OperatingSystemHelper } from "../common/OperatingSystem/OperatingSystemHelper";
 import { ExecutionService } from "./Core/ExecutionService";
@@ -22,7 +22,7 @@ import { defaultSettings } from "../common/Settings/Settings";
 import { Logger } from "../common/Logger/Logger";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
-const logger = new Logger("debug", [new ConsoleLogger()]);
+const logger = new Logger("debug", [new ConsoleLogWriter()]);
 const executionContext = ExecutionContextFactory.fromElectronApp(operatingSystem, app, process.versions.electron);
 const fileSettingsRepository = new FileSettingsRepository(join(executionContext.userDataPath, "ueli9.settings.json"));
 const settingsManager = new SettingsManager(fileSettingsRepository, defaultSettings, logger);
