@@ -20,9 +20,11 @@ import { TrayIconManager } from "./TrayIconManager";
 import { WindowManager } from "./WindowManager";
 import { defaultSettings } from "../common/Settings/Settings";
 import { Logger } from "../common/Logger/Logger";
+import { Clock } from "../common/Clock/Clock";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
-const logger = new Logger("debug", [new ConsoleLogWriter()]);
+const clock = new Clock();
+const logger = new Logger(clock, "debug", [new ConsoleLogWriter()]);
 const executionContext = ExecutionContextFactory.fromElectronApp(operatingSystem, app, process.versions.electron);
 const fileSettingsRepository = new FileSettingsRepository(join(executionContext.userDataPath, "ueli9.settings.json"));
 const settingsManager = new SettingsManager(fileSettingsRepository, defaultSettings, logger);
