@@ -12,21 +12,15 @@ import { PluginUtility } from "../PluginUtility";
 export class MacOsApplicationSearchPlugin implements SearchPlugin {
     protected readonly defaultSettings: Record<string, unknown> = {};
     private applications: MacOsApplication[] = [];
-    private temporaryFolderExists = false;
 
-    public constructor(private readonly executionContext: ExecutionContext) {
-        this.createTemporaryFolder();
-    }
+    public constructor(private readonly executionContext: ExecutionContext) {}
 
     public getPluginId(): string {
         return "MacOsApplicationSearchPlugin";
     }
 
     public async rescan(): Promise<void> {
-        if (!this.temporaryFolderExists) {
-            return;
-        }
-
+        await PluginUtility.ensurePluginFolderExists(this);
         const filePaths = await this.retrieveAllApplicationFilePaths();
         await this.generateMacAppIcons(filePaths);
 
@@ -41,11 +35,6 @@ export class MacOsApplicationSearchPlugin implements SearchPlugin {
 
     public getExecutionContext(): ExecutionContext {
         return this.executionContext;
-    }
-
-    private async createTemporaryFolder(): Promise<void> {
-        await PluginUtility.createTemporaryFolder(this);
-        this.temporaryFolderExists = true;
     }
 
     private async generateMacAppIcons(filePaths: string[]): Promise<void> {

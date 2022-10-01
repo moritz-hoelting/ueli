@@ -31,11 +31,12 @@ export class WindowsApplicationSearchPlugin implements SearchPlugin {
     }
 
     public async rescan(): Promise<void> {
+        await PluginUtility.ensurePluginFolderExists(this);
         const stdout = await PowershellUtility.executePowershellScript(this.getPowershellScript(this.settings));
         const windowsApplicationRetrieverResults = <WindowsApplicationRetrieverResult[]>JSON.parse(stdout);
 
-        this.applications = windowsApplicationRetrieverResults.map((app) =>
-            WindowsApplicationSearchPlugin.windowsApplicationRetrieverResultToWindowsApplication(app)
+        this.applications = windowsApplicationRetrieverResults.map(
+            (result) => new WindowsApplication(result.BaseName, result.FullName, result.IconFilePath)
         );
     }
 
@@ -66,11 +67,5 @@ export class WindowsApplicationSearchPlugin implements SearchPlugin {
 
     private static getFileExtensionFilter(fileExtensions: string[]): string {
         return fileExtensions.map((fileExtension) => `'*.${fileExtension}'`).join(",");
-    }
-
-    private static windowsApplicationRetrieverResultToWindowsApplication(
-        app: WindowsApplicationRetrieverResult
-    ): WindowsApplication {
-        return new WindowsApplication(app.BaseName, app.FullName, app.IconFilePath);
     }
 }

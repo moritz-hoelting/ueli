@@ -7,7 +7,7 @@ export class PluginUtility {
         return join(plugin.getExecutionContext().userDataPath, plugin.getPluginId());
     }
 
-    public static async createTemporaryFolder(plugin: SearchPlugin): Promise<void> {
+    public static async ensurePluginFolderExists(plugin: SearchPlugin): Promise<void> {
         return FileSystemUtility.createFolderIfDoesntExist(PluginUtility.getTemporaryFolderPath(plugin));
     }
 
