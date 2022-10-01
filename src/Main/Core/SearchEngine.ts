@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import { Logger } from "../../Common/Logger/Logger";
 import { SearchResultItem } from "../../Common/SearchResult/SearchResultItem";
 import { Settings } from "../../Common/Settings/Settings";
-import { PluginUtility } from "../Plugins/PluginUtility";
+import { SearchPluginUtility } from "../Plugins/SearchPluginUtility";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { Searchable } from "./Searchable";
 import { SearchEngineRescanError } from "./SearchEngineRescanError";
@@ -64,7 +64,7 @@ export class SearchEngine {
     public async clearCaches(): Promise<void> {
         try {
             await Promise.all(
-                this.searchPlugins.map((searchPlugin) => PluginUtility.cleanTemporaryFolder(searchPlugin))
+                this.searchPlugins.map((searchPlugin) => SearchPluginUtility.cleanPluginFolder(searchPlugin))
             );
         } catch (error) {
             throw new Error(`SearchEngine failed to clear caches. Reason: ${error}`);

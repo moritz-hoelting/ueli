@@ -3,7 +3,7 @@ import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { Searchable } from "../../Core/Searchable";
 import { PowershellUtility } from "../../Utilities/PowershellUtility";
 import { SearchPlugin } from "../SearchPlugin";
-import { PluginUtility } from "../PluginUtility";
+import { SearchPluginUtility } from "../SearchPluginUtility";
 import { extractShortcutPowershellScript, getWindowsAppsPowershellScript } from "./PowershellScripts";
 import { WindowsApplication } from "./WindowsApplication";
 import { WindowsApplicationRetrieverResult } from "./WindowsApplicationRetrieverResult";
@@ -31,7 +31,7 @@ export class WindowsApplicationSearchPlugin implements SearchPlugin {
     }
 
     public async rescan(): Promise<void> {
-        await PluginUtility.ensurePluginFolderExists(this);
+        await SearchPluginUtility.ensurePluginFolderExists(this);
         const stdout = await PowershellUtility.executePowershellScript(this.getPowershellScript(this.settings));
         const windowsApplicationRetrieverResults = <WindowsApplicationRetrieverResult[]>JSON.parse(stdout);
 
@@ -51,7 +51,7 @@ export class WindowsApplicationSearchPlugin implements SearchPlugin {
     private getPowershellScript(settings: WindowsApplicationSearchSettings): string {
         const folderPaths = WindowsApplicationSearchPlugin.getFolderPathFilter(settings.folderPaths);
         const fileExtensions = WindowsApplicationSearchPlugin.getFileExtensionFilter(settings.fileExtensions);
-        const tempFolderPath = PluginUtility.getTemporaryFolderPath(this);
+        const tempFolderPath = SearchPluginUtility.getPluginFolderPath(this);
 
         return `
             ${WindowsApplicationSearchPlugin.extractShortcutPowershellScript}

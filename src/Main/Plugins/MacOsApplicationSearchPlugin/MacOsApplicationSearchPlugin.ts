@@ -7,7 +7,7 @@ import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { SearchPlugin } from "../SearchPlugin";
 import { Searchable } from "../../Core/Searchable";
 import { CommandlineUtility } from "../../Utilities/CommandlineUtility";
-import { PluginUtility } from "../PluginUtility";
+import { SearchPluginUtility } from "../SearchPluginUtility";
 
 export class MacOsApplicationSearchPlugin implements SearchPlugin {
     protected readonly defaultSettings: Record<string, unknown> = {};
@@ -20,7 +20,7 @@ export class MacOsApplicationSearchPlugin implements SearchPlugin {
     }
 
     public async rescan(): Promise<void> {
-        await PluginUtility.ensurePluginFolderExists(this);
+        await SearchPluginUtility.ensurePluginFolderExists(this);
         const filePaths = await this.retrieveAllApplicationFilePaths();
         await this.generateMacAppIcons(filePaths);
 
