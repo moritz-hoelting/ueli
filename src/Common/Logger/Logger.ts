@@ -43,6 +43,6 @@ export class Logger {
     }
 
     private formatMessage(message: string) {
-        return `${this.clock.now().toLocaleTimeString()} - ${message}`;
+        return `[${this.clock.now().toLocaleTimeString()}] ${message}`;
     }
 }

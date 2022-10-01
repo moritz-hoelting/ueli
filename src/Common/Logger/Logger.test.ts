@@ -12,7 +12,7 @@ describe(Logger, () => {
     let logWriter: IMock<LogWriter>;
 
     const verifyLogWriterHandledLog = (level: LogLevel, logMessage: string, times: Times) =>
-        logWriter.verify((instance) => instance.handleLog(level, `${now.toLocaleTimeString()} - ${logMessage}`), times);
+        logWriter.verify((instance) => instance.handleLog(level, `[${now.toLocaleTimeString()}] ${logMessage}`), times);
 
     beforeEach(() => {
         clock = new Mock<Clock>().setup((instance) => instance.now()).returns(now);
