@@ -1,9 +1,9 @@
-import { ExecutionContext } from "../../Common/ExecutionContext";
-import { OperatingSystem } from "../../Common/OperatingSystem/OperatingSystem";
-import { SearchPlugin } from "../Plugins/SearchPlugin";
-import { MacOsApplicationSearchPlugin } from "../Plugins/MacOsApplicationSearchPlugin/MacOsApplicationSearchPlugin";
-import { SimpleFolderSearchPlugin } from "../Plugins/SimpleFolderSearchPlugin/SimpleFolderSearchPlugin";
-import { UeliCommandsPlugin } from "../Plugins/UeliCommandsPlugin/UeliCommandsPlugin";
+import { ExecutionContext } from "../Common/ExecutionContext";
+import { OperatingSystem } from "../Common/OperatingSystem/OperatingSystem";
+import { SearchPlugin } from "./Plugins/SearchPlugin";
+import { MacOsApplicationSearchPlugin } from "./Plugins/MacOsApplicationSearchPlugin/MacOsApplicationSearchPlugin";
+import { SimpleFolderSearchPlugin } from "./Plugins/SimpleFolderSearchPlugin/SimpleFolderSearchPlugin";
+import { UeliCommandsPlugin } from "./Plugins/UeliCommandsPlugin/UeliCommandsPlugin";
 
 export class PluginRepository {
     public constructor(protected readonly executionContext: ExecutionContext) {}

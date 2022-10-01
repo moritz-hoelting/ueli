@@ -18,7 +18,7 @@ import { WindowManager } from "./WindowManager";
 import { defaultSettings } from "../Common/Settings/Settings";
 import { Logger } from "../Common/Logger/Logger";
 import { Clock } from "../Common/Clock/Clock";
-import { PluginRepository } from "./PluginRepository/PluginRepository";
+import { PluginRepository } from "./PluginRepository";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());
 const clock = new Clock();
