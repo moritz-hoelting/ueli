@@ -1,5 +1,5 @@
 import { join } from "path";
-import { FileSystemUtility } from "../Utilities/FileSystemUtility";
+import { FileSystemUtility } from "../Utility/FileSystemUtility";
 import { SearchPlugin } from "./SearchPlugin";
 
 export class SearchPluginUtility {

@@ -1,7 +1,7 @@
 import { join } from "path";
 import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { Searchable } from "../../Core/Searchable";
-import { PowershellUtility } from "../../Utilities/PowershellUtility";
+import { PowershellUtility } from "../../Utility/PowershellUtility";
 import { SearchPlugin } from "../SearchPlugin";
 import { SearchPluginUtility } from "../SearchPluginUtility";
 import { extractShortcutPowershellScript, getWindowsAppsPowershellScript } from "./PowershellScripts";

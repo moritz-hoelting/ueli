@@ -1,7 +1,7 @@
 import { join } from "path";
 import { Settings } from "../../Common/Settings/Settings";
 import { FileSettingsRepository } from "./FileSettingsRepository";
-import { FileSystemUtility } from "../Utilities/FileSystemUtility";
+import { FileSystemUtility } from "../Utility/FileSystemUtility";
 
 describe(FileSettingsRepository, () => {
     const temporaryFolder = join(__dirname, "temp");

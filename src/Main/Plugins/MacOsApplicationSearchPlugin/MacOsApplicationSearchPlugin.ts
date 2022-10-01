@@ -2,11 +2,11 @@ import { createHash } from "crypto";
 import { join, normalize } from "path";
 import { MacOsApplication } from "./MacOsApplication";
 import { app } from "electron";
-import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
+import { FileSystemUtility } from "../../Utility/FileSystemUtility";
 import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { SearchPlugin } from "../SearchPlugin";
 import { Searchable } from "../../Core/Searchable";
-import { CommandlineUtility } from "../../Utilities/CommandlineUtility";
+import { CommandlineUtility } from "../../Utility/CommandlineUtility";
 import { SearchPluginUtility } from "../SearchPluginUtility";
 
 export class MacOsApplicationSearchPlugin implements SearchPlugin {

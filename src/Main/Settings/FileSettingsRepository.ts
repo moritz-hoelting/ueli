@@ -1,6 +1,6 @@
 import { Settings } from "../../Common/Settings/Settings";
 import { SettingsRepository } from "./SettingsRepository";
-import { FileSystemUtility } from "../Utilities/FileSystemUtility";
+import { FileSystemUtility } from "../Utility/FileSystemUtility";
 
 export class FileSettingsRepository implements SettingsRepository {
     public constructor(private readonly settingsFilePath: string) {}

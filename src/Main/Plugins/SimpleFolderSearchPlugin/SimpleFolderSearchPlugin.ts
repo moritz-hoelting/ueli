@@ -1,7 +1,7 @@
 import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { Searchable } from "../../Core/Searchable";
-import { FileIconUtility } from "../../Utilities/FileIconUtility";
-import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
+import { FileIconUtility } from "../../Utility/FileIconUtility";
+import { FileSystemUtility } from "../../Utility/FileSystemUtility";
 import { SearchPlugin } from "../SearchPlugin";
 import { SimpleFolderSearchItem } from "./SimpleFolderSearchItem";
 import { SimpleFolderSearchResultItem } from "./SimpleFolderSearchResultItem";
