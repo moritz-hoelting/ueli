@@ -1,5 +1,6 @@
 import { LogLevel } from "./LogLevel";
 import { LogWriter } from "./LogWriter";
+import { Clock } from "../Clock/Clock";
 
 export class Logger {
     private static logLevelMap: Record<LogLevel, number> = {
@@ -9,9 +10,7 @@ export class Logger {
         error: 3,
     };
 
-    private static formatMessage = (message: string) => `${new Date().toLocaleTimeString()} - ${message}`;
-
-    public constructor(private level: LogLevel, private logWriters: LogWriter[]) {}
+    public constructor(private clock: Clock, private level: LogLevel, private logWriters: LogWriter[]) {}
 
     public debug(message: string): void {
         this.handleLog("debug", message);
@@ -29,17 +28,21 @@ export class Logger {
         this.handleLog("error", message);
     }
 
-    private handleLog(level: LogLevel, message: string): void {
-        if (this.isIgnoredLevel(level)) {
+    private handleLog(invokedLevel: LogLevel, message: string): void {
+        if (this.isIgnoredLevel(invokedLevel)) {
             return;
         }
 
         for (const logWriter of this.logWriters) {
-            logWriter.handleLog(level, Logger.formatMessage(message));
+            logWriter.handleLog(invokedLevel, this.formatMessage(message));
         }
     }
 
     private isIgnoredLevel(invokedLevel: LogLevel): boolean {
-        return Logger.logLevelMap[invokedLevel] >= Logger.logLevelMap[this.level];
+        return Logger.logLevelMap[invokedLevel] < Logger.logLevelMap[this.level];
+    }
+
+    private formatMessage(message: string) {
+        return `${this.clock.now().toLocaleTimeString()} - ${message}`;
     }
 }
