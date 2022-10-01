@@ -11,7 +11,7 @@ import { SearchEngine } from "./SearchEngine";
 
 describe(SearchEngine, () => {
     let logger: IMock<Logger>;
-    let searchPlugin: IMock<SearchPlugin<unknown>>;
+    let searchPlugin: IMock<SearchPlugin>;
 
     const tempFolderPath = join(__dirname, "temp");
 
@@ -39,18 +39,12 @@ describe(SearchEngine, () => {
             .setup((instance) => instance.error("Error"))
             .returns();
 
-    const setUpSearchPluginMock = (): IMock<SearchPlugin<unknown>> =>
-        new Mock<SearchPlugin<unknown>>()
-            .setup((instance) => instance.createTemporaryFolder())
-            .returns(Promise.resolve())
-            .setup((instance) => instance.createSettingsFileIfNotExists())
-            .returns(Promise.resolve())
-            .setup((instance) => instance.getTemporaryFolderPath())
-            .returns(tempFolderPath)
-            .setup((instance) => instance.rescan())
-            .returns(Promise.resolve())
+    const setUpSearchPluginMock = (): IMock<SearchPlugin> =>
+        new Mock<SearchPlugin>()
             .setup((instance) => instance.getAllSearchables())
-            .returns(searchables);
+            .returns(searchables)
+            .setup((instance) => instance.rescan())
+            .returns(Promise.resolve());
 
     const verifyLoggerLoggedInfo = (message: string, times?: Times) =>
         logger.verify((instance) => instance.info(message), times);
@@ -63,31 +57,21 @@ describe(SearchEngine, () => {
 
     afterEach(async () => await FileSystemUtility.deleteFolderRecursively(tempFolderPath));
 
-    it("should create plugin temp folders and trigger a rescan on instantiation", async () => {
-        const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
-        await searchEngine.initialize();
-        const pluginFolderExists = await FileSystemUtility.pathExists(searchPlugin.object().getTemporaryFolderPath());
+    describe(SearchEngine.prototype.start, () => {
+        it("should trigger a rescan", async () => {
+            const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
+            await searchEngine.start();
 
-        expect(pluginFolderExists).toBe(true);
-        verifyLoggerLoggedInfo("Starting rescan", Times.Once());
-        verifyLoggerLoggedInfo("Successfully rescanned", Times.Once());
+            verifyLoggerLoggedInfo("Starting rescan", Times.Once());
+            verifyLoggerLoggedInfo("Successfully rescanned", Times.Once());
+        });
     });
 
     describe(SearchEngine.prototype.search, () => {
-        it("should return an empty array if search engine is not initialized yet", async () => {
-            const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
-
-            expect(searchEngine.search("item").length).toBe(0);
-            await searchEngine.initialize();
-            expect(searchEngine.search("item").length).toBe(searchables.length);
-
-            verifyLoggerLoggedInfo("Starting rescan", Times.Once());
-        });
-
         it("should return an empty array if the search term is an empty string", async () => {
             const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("");
 
             expect(actual.length).toBe(0);
@@ -97,7 +81,7 @@ describe(SearchEngine, () => {
         it("should return all items that match the search term", async () => {
             const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("Search Result Item");
 
             expect(actual).toEqual(searchables.map((searchable) => searchable.toSearchResultItem()));
@@ -107,7 +91,7 @@ describe(SearchEngine, () => {
         it("should be case insensitive", async () => {
             const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("search result item");
 
             expect(actual).toEqual(searchables.map((searchable) => searchable.toSearchResultItem()));
@@ -117,7 +101,7 @@ describe(SearchEngine, () => {
         it("should return an empty array if the search term does not match any of the items", async () => {
             const searchEngine = new SearchEngine(searchEngineSettings, [searchPlugin.object()], logger.object());
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("whatever");
 
             expect(actual).toEqual([]);
@@ -135,7 +119,7 @@ describe(SearchEngine, () => {
                 logger.object()
             );
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("srch rslt");
 
             expect(actual).toEqual(searchables.map((searchable) => searchable.toSearchResultItem()));
@@ -153,7 +137,7 @@ describe(SearchEngine, () => {
                 logger.object()
             );
 
-            await searchEngine.initialize();
+            await searchEngine.start();
             const actual = searchEngine.search("srch rslt");
 
             expect(actual).toEqual([]);

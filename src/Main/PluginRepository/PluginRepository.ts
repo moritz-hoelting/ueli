@@ -1,18 +1,37 @@
 import { ExecutionContext } from "../../Common/ExecutionContext";
+import { OperatingSystem } from "../../Common/OperatingSystem/OperatingSystem";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
+import { MacOsApplicationSearchPlugin } from "../Plugins/MacOsApplicationSearchPlugin/MacOsApplicationSearchPlugin";
 import { SimpleFolderSearchPlugin } from "../Plugins/SimpleFolderSearchPlugin/SimpleFolderSearchPlugin";
 import { UeliCommandsPlugin } from "../Plugins/UeliCommandsPlugin/UeliCommandsPlugin";
 
-export abstract class PluginRepository {
-    protected abstract getOperatingSystemSpecificPlugins(): SearchPlugin<unknown>[];
+export class PluginRepository {
+    public constructor(protected readonly executionContext: ExecutionContext) {}
 
-    protected constructor(protected readonly executionContext: ExecutionContext) {}
-
-    protected getCommonPlugins(): SearchPlugin<unknown>[] {
-        return [new SimpleFolderSearchPlugin(this.executionContext), new UeliCommandsPlugin(this.executionContext)];
+    public getAllPlugins(): SearchPlugin[] {
+        return [...this.getOperatingSystemAgnosticPlugins(), ...this.getOperatingSystemSpecificPlugins()];
     }
 
-    public getAllPlugins(): SearchPlugin<unknown>[] {
-        return this.getCommonPlugins().concat(this.getOperatingSystemSpecificPlugins());
+    private getOperatingSystemAgnosticPlugins(): SearchPlugin[] {
+        return [new UeliCommandsPlugin(this.executionContext), new SimpleFolderSearchPlugin(this.executionContext)];
+    }
+
+    private getOperatingSystemSpecificPlugins(): SearchPlugin[] {
+        switch (this.executionContext.operatingSystem) {
+            case OperatingSystem.macOS:
+                return this.getMacOsSpecificPlugins();
+            case OperatingSystem.Windows:
+                return this.getWindowsSpecificPlugins();
+            default:
+                throw new Error(`Unsupported platform: ${this.executionContext.operatingSystem}`);
+        }
+    }
+
+    private getMacOsSpecificPlugins(): SearchPlugin[] {
+        return [new MacOsApplicationSearchPlugin(this.executionContext)];
+    }
+
+    private getWindowsSpecificPlugins(): SearchPlugin[] {
+        return [];
     }
 }

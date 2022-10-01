@@ -1,23 +1,18 @@
 import { ExecutionContext } from "../../../Common/ExecutionContext";
+import { Searchable } from "../../Core/Searchable";
 import { FileIconUtility } from "../../Utilities/FileIconUtility";
 import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
 import { SearchPlugin } from "../SearchPlugin";
 import { SimpleFolderSearchItem } from "./SimpleFolderSearchItem";
 import { SimpleFolderSearchResultItem } from "./SimpleFolderSearchResultItem";
 
-export class SimpleFolderSearchPlugin extends SearchPlugin<unknown> {
-    public readonly pluginId = "SimpleFolderSearchPlugin";
-    protected readonly defaultSettings = {};
+export class SimpleFolderSearchPlugin implements SearchPlugin {
+    private items: SimpleFolderSearchItem[] = [];
 
-    private items: SimpleFolderSearchItem[];
+    public constructor(private readonly executionContext: ExecutionContext) {}
 
-    public constructor(executionContext: ExecutionContext) {
-        super(executionContext);
-        this.items = [];
-    }
-
-    public clearCache(): Promise<void> {
-        return Promise.resolve();
+    public getPluginId(): string {
+        return "SimpleFolderSearchPlugin";
     }
 
     public async rescan(): Promise<void> {
@@ -25,8 +20,12 @@ export class SimpleFolderSearchPlugin extends SearchPlugin<unknown> {
         this.items = await Promise.all(filePaths.map((filePath) => SimpleFolderSearchPlugin.getIcon(filePath)));
     }
 
-    public getAllSearchables(): SimpleFolderSearchResultItem[] {
-        return this.items.map((file) => new SimpleFolderSearchResultItem(file.filePath, file.iconDataUrl));
+    public getAllSearchables(): Searchable[] {
+        return this.items.map((item) => new SimpleFolderSearchResultItem(item.filePath, item.iconDataUrl));
+    }
+
+    public getExecutionContext(): ExecutionContext {
+        return this.executionContext;
     }
 
     private static async getIcon(filePath: string): Promise<SimpleFolderSearchItem> {

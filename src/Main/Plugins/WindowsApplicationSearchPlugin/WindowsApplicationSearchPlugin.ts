@@ -1,43 +1,37 @@
 import { join } from "path";
 import { ExecutionContext } from "../../../Common/ExecutionContext";
+import { Searchable } from "../../Core/Searchable";
+import { PowershellUtility } from "../../Utilities/PowershellUtility";
 import { SearchPlugin } from "../SearchPlugin";
+import { PluginUtility } from "../PluginUtility";
 import { extractShortcutPowershellScript, getWindowsAppsPowershellScript } from "./PowershellScripts";
 import { WindowsApplication } from "./WindowsApplication";
 import { WindowsApplicationRetrieverResult } from "./WindowsApplicationRetrieverResult";
 import { WindowsApplicationSearchSettings } from "./WindowsApplicationSearchSettings";
 
-export class WindowsApplicationSearchPlugin extends SearchPlugin<WindowsApplicationSearchSettings> {
+export class WindowsApplicationSearchPlugin implements SearchPlugin {
     private static readonly extractShortcutPowershellScript = extractShortcutPowershellScript;
     private static readonly getWindowsAppsPowershellScript = getWindowsAppsPowershellScript;
 
-    public readonly pluginId = "WindowsApplicationSearchPlugin";
-    protected readonly defaultSettings: WindowsApplicationSearchSettings;
-    private applications: WindowsApplication[];
+    private readonly settings: WindowsApplicationSearchSettings;
+    private applications: WindowsApplication[] = [];
 
-    public constructor(
-        executionContext: ExecutionContext,
-        private readonly executePowershellScript: (powershellScript: string) => Promise<string>
-    ) {
-        super(executionContext);
-
-        this.defaultSettings = {
+    public constructor(private readonly executionContext: ExecutionContext) {
+        this.settings = {
             folderPaths: [
                 "C:\\ProgramData\\Microsoft\\Windows\\Start Menu",
                 join(executionContext.userHomePath, "AppData", "Roaming", "Microsoft", "Windows", "Start Menu"),
             ],
             fileExtensions: ["lnk"],
         };
-
-        this.applications = [];
     }
 
-    public getAllSearchables(): WindowsApplication[] {
-        return this.applications;
+    public getPluginId(): string {
+        return "WindowsApplicationSearchPlugin";
     }
 
     public async rescan(): Promise<void> {
-        const settings = await this.getSettings();
-        const stdout = await this.executePowershellScript(this.getPowershellScript(settings));
+        const stdout = await PowershellUtility.executePowershellScript(this.getPowershellScript(this.settings));
         const windowsApplicationRetrieverResults = <WindowsApplicationRetrieverResult[]>JSON.parse(stdout);
 
         this.applications = windowsApplicationRetrieverResults.map((app) =>
@@ -45,18 +39,18 @@ export class WindowsApplicationSearchPlugin extends SearchPlugin<WindowsApplicat
         );
     }
 
-    public async clearCache(): Promise<void> {
-        try {
-            await this.executePowershellScript(`Remove-Item '${this.getTemporaryFolderPath()}\\*.png'`);
-        } catch (error) {
-            throw new Error(`WindowsApplicationSearchPlugin failed to clear cache. Reason: ${error}`);
-        }
+    public getAllSearchables(): Searchable[] {
+        return this.applications;
+    }
+
+    public getExecutionContext(): ExecutionContext {
+        return this.executionContext;
     }
 
     private getPowershellScript(settings: WindowsApplicationSearchSettings): string {
         const folderPaths = WindowsApplicationSearchPlugin.getFolderPathFilter(settings.folderPaths);
         const fileExtensions = WindowsApplicationSearchPlugin.getFileExtensionFilter(settings.fileExtensions);
-        const tempFolderPath = this.getTemporaryFolderPath();
+        const tempFolderPath = PluginUtility.getTemporaryFolderPath(this);
 
         return `
             ${WindowsApplicationSearchPlugin.extractShortcutPowershellScript}

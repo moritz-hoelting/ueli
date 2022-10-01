@@ -1,41 +1,51 @@
 import { createHash } from "crypto";
-import { join } from "path";
-import { SearchPlugin } from "../SearchPlugin";
+import { join, normalize } from "path";
 import { MacOsApplication } from "./MacOsApplication";
 import { app } from "electron";
 import { FileSystemUtility } from "../../Utilities/FileSystemUtility";
 import { ExecutionContext } from "../../../Common/ExecutionContext";
+import { SearchPlugin } from "../SearchPlugin";
+import { Searchable } from "../../Core/Searchable";
+import { CommandlineUtility } from "../../Utilities/CommandlineUtility";
+import { PluginUtility } from "../PluginUtility";
 
-export class MacOsApplicationSearchPlugin extends SearchPlugin<Record<string, unknown>> {
-    public readonly pluginId = "MacOsApplicationSearchPlugin";
-    protected readonly defaultSettings: Record<string, unknown>;
-    private applications: MacOsApplication[];
+export class MacOsApplicationSearchPlugin implements SearchPlugin {
+    protected readonly defaultSettings: Record<string, unknown> = {};
+    private applications: MacOsApplication[] = [];
+    private temporaryFolderExists = false;
 
-    public constructor(
-        executionContext: ExecutionContext,
-        private readonly macOsApplicationFileRetriever: () => Promise<string[]>
-    ) {
-        super(executionContext);
-
-        this.defaultSettings = {};
-        this.applications = [];
+    public constructor(private readonly executionContext: ExecutionContext) {
+        this.createTemporaryFolder();
     }
 
-    public getAllSearchables(): MacOsApplication[] {
-        return this.applications;
-    }
-
-    public async clearCache(): Promise<void> {
-        return;
+    public getPluginId(): string {
+        return "MacOsApplicationSearchPlugin";
     }
 
     public async rescan(): Promise<void> {
-        const filePaths = await this.macOsApplicationFileRetriever();
+        if (!this.temporaryFolderExists) {
+            return;
+        }
+
+        const filePaths = await this.retrieveAllApplicationFilePaths();
         await this.generateMacAppIcons(filePaths);
 
         this.applications = filePaths.map(
             (filePath) => new MacOsApplication(filePath, this.getApplicationIconFilePath(filePath))
         );
+    }
+
+    public getAllSearchables(): Searchable[] {
+        return this.applications;
+    }
+
+    public getExecutionContext(): ExecutionContext {
+        return this.executionContext;
+    }
+
+    private async createTemporaryFolder(): Promise<void> {
+        await PluginUtility.createTemporaryFolder(this);
+        this.temporaryFolderExists = true;
     }
 
     private async generateMacAppIcons(filePaths: string[]): Promise<void> {
@@ -57,5 +67,18 @@ export class MacOsApplicationSearchPlugin extends SearchPlugin<Record<string, un
     private getApplicationIconFilePath(applicationFilePath: string): string {
         const hash = createHash("sha256").update(`${applicationFilePath}`).digest("hex");
         return `${join(this.getTemporaryFolderPath(), hash)}.png`;
+    }
+
+    private getTemporaryFolderPath(): string {
+        return join(this.executionContext.userDataPath, this.getPluginId());
+    }
+
+    private async retrieveAllApplicationFilePaths(): Promise<string[]> {
+        const output = await CommandlineUtility.executeCommandWithOutput("mdfind kind:apps");
+
+        return output
+            .split("\n")
+            .map((filePath) => normalize(filePath).trim())
+            .filter((filePath) => [".", ".."].indexOf(filePath) === -1);
     }
 }

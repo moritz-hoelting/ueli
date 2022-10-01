@@ -2,30 +2,27 @@ import Fuse from "fuse.js";
 import { Logger } from "../../Common/Logger/Logger";
 import { SearchResultItem } from "../../Common/SearchResult/SearchResultItem";
 import { Settings } from "../../Common/Settings/Settings";
+import { PluginUtility } from "../Plugins/PluginUtility";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { Searchable } from "./Searchable";
 import { SearchEngineRescanError } from "./SearchEngineRescanError";
 
 export class SearchEngine {
-    private initialized = false;
     private rescanPromise?: Promise<void[]>;
     private scheduledRescanTimeout?: number | NodeJS.Timeout;
 
     constructor(
         private settings: Settings,
-        private readonly searchPlugins: SearchPlugin<unknown>[],
+        private readonly searchPlugins: SearchPlugin[],
         private readonly logger: Logger
     ) {}
 
-    public async initialize(): Promise<void> {
-        await this.createPluginTempFolders();
-        await this.createPluginSettingFilesIfNecessary();
+    public async start(): Promise<void> {
         await this.rescan();
-        this.initialized = true;
     }
 
     public search(searchTerm: string): SearchResultItem[] {
-        if (!this.initialized || SearchEngine.isEmptySearchTerm(searchTerm)) {
+        if (SearchEngine.isEmptySearchTerm(searchTerm)) {
             return [];
         }
 
@@ -66,7 +63,9 @@ export class SearchEngine {
 
     public async clearCaches(): Promise<void> {
         try {
-            await Promise.all(this.searchPlugins.map((searchPlugin) => searchPlugin.clearCache()));
+            await Promise.all(
+                this.searchPlugins.map((searchPlugin) => PluginUtility.cleanTemporaryFolder(searchPlugin))
+            );
         } catch (error) {
             throw new Error(`SearchEngine failed to clear caches. Reason: ${error}`);
         }
@@ -101,14 +100,6 @@ export class SearchEngine {
     private scheduleRescan(automaticRescanIntervalInSeconds: number): void {
         this.logger.info(`Scheduled next rescan in ${automaticRescanIntervalInSeconds} seconds`);
         this.scheduledRescanTimeout = setTimeout(() => this.rescan(), automaticRescanIntervalInSeconds * 1000);
-    }
-
-    private async createPluginTempFolders(): Promise<void> {
-        await Promise.all(this.searchPlugins.map((searchPlugin) => searchPlugin.createTemporaryFolder()));
-    }
-
-    private async createPluginSettingFilesIfNecessary(): Promise<void> {
-        await Promise.all(this.searchPlugins.map((searchPlugin) => searchPlugin.createSettingsFileIfNotExists()));
     }
 
     private getAllSearchables(): Searchable[] {

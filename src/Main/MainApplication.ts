@@ -44,7 +44,7 @@ export class MainApplication {
         this.createTrayIcon();
         await this.windowManager.createMainWindow();
         this.registerGlobalKeyEventListeners();
-        await this.initializeSearchEngine();
+        await this.searchEngine.start();
     }
 
     private async quitApp(): Promise<void> {
@@ -68,10 +68,6 @@ export class MainApplication {
 
     private registerGlobalKeyEventListeners(): void {
         this.globalShortcut.register("Alt+Space", () => this.windowManager.toggleMainWindow());
-    }
-
-    private async initializeSearchEngine(): Promise<void> {
-        await this.searchEngine.initialize();
     }
 
     private registerIpcEventListeners(): void {
