@@ -5,10 +5,10 @@ const mode = process.env.NODE_ENV === "production" ? "production" : "development
 console.log(`Mode: ${mode}`);
 
 const entryPoints = {
-    main: path.join(__dirname, "src", "Mai_", "Main.ts"),
-    preload: path.join(__dirname, "src", "Common_", "Preload.ts"),
-    mainRenderer: path.join(__dirname, "src", "Renderer_", "MainRenderer.tsx"),
-    settingsRenderer: path.join(__dirname, "src", "Renderer_", "SettingsRenderer.tsx"),
+    main: path.join(__dirname, "src", "Main", "Main.ts"),
+    preload: path.join(__dirname, "src", "Common", "Preload.ts"),
+    mainRenderer: path.join(__dirname, "src", "Renderer", "MainRenderer.tsx"),
+    settingsRenderer: path.join(__dirname, "src", "Renderer", "SettingsRenderer.tsx"),
 };
 
 const outputFiles = {
