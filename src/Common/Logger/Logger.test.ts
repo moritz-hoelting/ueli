@@ -1,5 +1,5 @@
 import { IMock, Mock, Times } from "moq.ts";
-import { Clock } from "../Clock/Clock";
+import { Clock } from "../Clock";
 import { Logger } from "./Logger";
 import { LogLevel } from "./LogLevel";
 import { LogWriter } from "./LogWriter";

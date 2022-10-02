@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 import { Logger } from "../../Common/Logger/Logger";
 import { SearchResultItem } from "../../Common/SearchResult/SearchResultItem";
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 import { SearchPluginUtility } from "../Plugins/SearchPluginUtility";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { Searchable } from "./Searchable";

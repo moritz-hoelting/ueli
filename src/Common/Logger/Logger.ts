@@ -1,6 +1,6 @@
 import { LogLevel } from "./LogLevel";
 import { LogWriter } from "./LogWriter";
-import { Clock } from "../Clock/Clock";
+import { Clock } from "../Clock";
 
 export class Logger {
     private static logLevelMap: Record<LogLevel, number> = {

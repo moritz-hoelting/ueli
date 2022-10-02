@@ -1,4 +1,4 @@
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 import { SettingsRepository } from "./SettingsRepository";
 import { FileSystemUtility } from "../Utility/FileSystemUtility";
 

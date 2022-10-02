@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { ExecutionContext } from "../../Common/ExecutionContext";
-import { Settings, SettingsKey } from "../../Common/Settings/Settings";
+import { Settings, SettingsKey } from "../../Common/Settings";
 
 type SettingsContext = {
     executionContext: ExecutionContext;

@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
-import { getExecutionContext, getSettings, saveSettings } from "./Actions";
-import { Settings } from "./Components/SettingsWindow/Settings";
-import { Settings as UserSettings, SettingsKey } from "../Common/Settings/Settings";
-import { Context } from "./Context/SettingsContext";
+import { getExecutionContext, getSettings, saveSettings } from "../Actions";
+import { Settings } from "./Components/Settings";
+import { Settings as UserSettings, SettingsKey } from "../../Common/Settings";
+import { Context } from "./SettingsContext";
 
 const App: FC = () => {
     const executionContext = getExecutionContext();

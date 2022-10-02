@@ -1,9 +1,10 @@
 import { Tab, TabList } from "@fluentui/react-components";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SettingsRoute } from "../SettingsRoute";
 
 type Props = {
-    routes: { path: string; label: string }[];
+    routes: SettingsRoute[];
 };
 
 export const Navigation: FC<Props> = ({ routes }) => {

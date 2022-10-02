@@ -1,6 +1,6 @@
 import { ExecutionContext } from "../Common/ExecutionContext";
 import { IpcChannel } from "../Common/IpcChannel";
-import { Settings } from "../Common/Settings/Settings";
+import { Settings } from "../Common/Settings";
 
 export const getExecutionContext = () =>
     window.Bridge.ipcRenderer.sendSync<unknown, ExecutionContext>(IpcChannel.GetExecutionContext);

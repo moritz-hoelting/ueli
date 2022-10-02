@@ -15,9 +15,9 @@ import { MainApplication } from "./MainApplication";
 import { SettingsManager } from "./Settings/SettingsManager";
 import { TrayIconManager } from "./TrayIconManager";
 import { WindowManager } from "./WindowManager";
-import { defaultSettings } from "../Common/Settings/Settings";
+import { defaultSettings } from "../Common/Settings";
 import { Logger } from "../Common/Logger/Logger";
-import { Clock } from "../Common/Clock/Clock";
+import { Clock } from "../Common/Clock";
 import { PluginRepository } from "./PluginRepository";
 
 const operatingSystem = OperatingSystemHelper.getOperatingSystem(platform());

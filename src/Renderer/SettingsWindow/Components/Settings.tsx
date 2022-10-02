@@ -1,24 +1,19 @@
 import { CSSProperties, FC, useContext } from "react";
 import { FluentProvider } from "@fluentui/react-components";
-import { ColorThemeName, getTheme } from "../../ColorThemes";
+import { ColorThemeName, getTheme } from "../../Common/ColorThemes";
 import { Navigation } from "./Navigation";
 import { Route, Routes } from "react-router-dom";
 import { GeneralSettings } from "./GeneralSettings";
 import { SearchEngineSettings } from "./SearchEngineSettings";
 import { AppearanceSettings } from "./AppearanceSettings";
 import { About } from "./About";
-import { Context } from "../../Context/SettingsContext";
-
-type Route = {
-    label: string;
-    path: string;
-    element: JSX.Element;
-};
+import { Context } from "../SettingsContext";
+import { SettingsRoute } from "../SettingsRoute";
 
 export const Settings: FC = () => {
     const { settings } = useContext(Context);
 
-    const routes: Route[] = [
+    const routes: SettingsRoute[] = [
         { label: "General", path: "/", element: <GeneralSettings /> },
         { label: "Appearance", path: "/appearance", element: <AppearanceSettings /> },
         { label: "Search Engine", path: "/search-engine", element: <SearchEngineSettings /> },

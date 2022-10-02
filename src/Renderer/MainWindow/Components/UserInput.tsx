@@ -1,7 +1,7 @@
 import { Input } from "@fluentui/react-components";
 import { FC, KeyboardEvent, useRef, useState } from "react";
 import { IpcChannel } from "../../../Common/IpcChannel";
-import { NavigationDirection } from "./SearchResultListUtility";
+import { NavigationDirection } from "../SearchResultListUtility";
 
 const navigationDirectionMap: Record<"ArrowUp" | "ArrowDown", NavigationDirection> = {
     ArrowDown: NavigationDirection.Next,

@@ -1,6 +1,6 @@
 import { IMock, Mock, Times } from "moq.ts";
 import { Logger } from "../../Common/Logger/Logger";
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 import { SettingsManager } from "./SettingsManager";
 import { SettingsRepository } from "./SettingsRepository";
 

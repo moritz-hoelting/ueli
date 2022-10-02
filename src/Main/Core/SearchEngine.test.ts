@@ -2,7 +2,7 @@ import { IMock, Mock, Times } from "moq.ts";
 import { join } from "path";
 import { Logger } from "../../Common/Logger/Logger";
 import { SearchResultItemDummy } from "../../Common/SearchResult/SearchResultItemDummy";
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 import { SearchPlugin } from "../Plugins/SearchPlugin";
 import { FileSystemUtility } from "../Utility/FileSystemUtility";
 import { DummySearchable } from "./DummySearchable";

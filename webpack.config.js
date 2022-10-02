@@ -7,8 +7,8 @@ console.log(`Mode: ${mode}`);
 const entryPoints = {
     main: path.join(__dirname, "src", "Main", "Main.ts"),
     preload: path.join(__dirname, "src", "Common", "Preload.ts"),
-    mainRenderer: path.join(__dirname, "src", "Renderer", "MainRenderer.tsx"),
-    settingsRenderer: path.join(__dirname, "src", "Renderer", "SettingsRenderer.tsx"),
+    mainRenderer: path.join(__dirname, "src", "Renderer", "MainWindow", "MainRenderer.tsx"),
+    settingsRenderer: path.join(__dirname, "src", "Renderer", "SettingsWindow", "SettingsRenderer.tsx"),
 };
 
 const outputFiles = {

@@ -3,10 +3,10 @@ import { FC, useEffect, useState } from "react";
 import { ExecutionContext } from "../../../Common/ExecutionContext";
 import { IpcChannel } from "../../../Common/IpcChannel";
 import { SearchResultItem } from "../../../Common/SearchResult/SearchResultItem";
-import { Settings } from "../../../Common/Settings/Settings";
-import { ColorThemeName, getTheme } from "../../ColorThemes";
+import { Settings } from "../../../Common/Settings";
+import { ColorThemeName, getTheme } from "../../Common/ColorThemes";
+import { calculateSelectedIndex, NavigationDirection } from "../SearchResultListUtility";
 import { SearchResultList } from "./SearchResultList";
-import { calculateSelectedIndex, NavigationDirection } from "./SearchResultListUtility";
 import { UserInput } from "./UserInput";
 
 type Props = {

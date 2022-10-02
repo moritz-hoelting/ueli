@@ -1,4 +1,4 @@
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 
 export interface SettingsRepository {
     readSettings(): Settings | undefined;

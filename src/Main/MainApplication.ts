@@ -3,7 +3,7 @@ import { IpcChannel } from "../Common/IpcChannel";
 import { Logger } from "../Common/Logger/Logger";
 import { OperatingSystem } from "../Common/OperatingSystem/OperatingSystem";
 import { SearchResultItem } from "../Common/SearchResult/SearchResultItem";
-import { Settings } from "../Common/Settings/Settings";
+import { Settings } from "../Common/Settings";
 import { ExecutionService } from "./Core/ExecutionService";
 import { LocationOpeningService } from "./Core/LocationOpeningService";
 import { SearchEngine } from "./Core/SearchEngine";

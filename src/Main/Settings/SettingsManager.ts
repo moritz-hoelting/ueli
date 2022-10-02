@@ -1,5 +1,5 @@
 import { Logger } from "../../Common/Logger/Logger";
-import { Settings } from "../../Common/Settings/Settings";
+import { Settings } from "../../Common/Settings";
 import { SettingsRepository } from "./SettingsRepository";
 
 export class SettingsManager {
