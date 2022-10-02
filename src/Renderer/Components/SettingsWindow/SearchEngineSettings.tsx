@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Context } from "./Context";
+import { Context } from "../../Context/SettingsContext";
 import { SliderField, SpinButtonField, SwitchField } from "@fluentui/react-components/unstable";
 
 export const SearchEngineSettings: FC = () => {

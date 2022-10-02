@@ -4,7 +4,7 @@ import { HashRouter } from "react-router-dom";
 import { getExecutionContext, getSettings, saveSettings } from "./Actions";
 import { Settings } from "./Components/SettingsWindow/Settings";
 import { Settings as UserSettings, SettingsKey } from "../Common/Settings/Settings";
-import { Context } from "./Components/SettingsWindow/Context";
+import { Context } from "./Context/SettingsContext";
 
 const App: FC = () => {
     const executionContext = getExecutionContext();

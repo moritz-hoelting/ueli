@@ -1,9 +1,12 @@
 import { Tab, TabList } from "@fluentui/react-components";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { routes } from "./Routes";
 
-export const Navigation: FC = () => {
+type Props = {
+    routes: { path: string; label: string }[];
+};
+
+export const Navigation: FC<Props> = ({ routes }) => {
     const [selectedValue, setSelectedValue] = useState<string>(routes[0].path);
     const navigate = useNavigate();
 

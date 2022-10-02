@@ -2,7 +2,7 @@ import { Radio } from "@fluentui/react-components";
 import { RadioGroupField } from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
 import { ColorThemeName } from "../../ColorThemes";
-import { Context } from "./Context";
+import { Context } from "../../Context/SettingsContext";
 
 export const AppearanceSettings: FC = () => {
     const { settings, settingsUpdated } = useContext(Context);

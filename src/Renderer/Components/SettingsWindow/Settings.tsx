@@ -7,16 +7,22 @@ import { GeneralSettings } from "./GeneralSettings";
 import { SearchEngineSettings } from "./SearchEngineSettings";
 import { AppearanceSettings } from "./AppearanceSettings";
 import { About } from "./About";
-import { Context } from "./Context";
+import { Context } from "../../Context/SettingsContext";
+
+type Route = {
+    label: string;
+    path: string;
+    element: JSX.Element;
+};
 
 export const Settings: FC = () => {
     const { settings } = useContext(Context);
 
-    const routes: { path: string; element: JSX.Element }[] = [
-        { path: "/about", element: <About /> },
-        { path: "/appearance", element: <AppearanceSettings /> },
-        { path: "/", element: <GeneralSettings /> },
-        { path: "/search-engine", element: <SearchEngineSettings /> },
+    const routes: Route[] = [
+        { label: "General", path: "/", element: <GeneralSettings /> },
+        { label: "Appearance", path: "/appearance", element: <AppearanceSettings /> },
+        { label: "Search Engine", path: "/search-engine", element: <SearchEngineSettings /> },
+        { label: "About", path: "/about", element: <About /> },
     ];
 
     const fluentProviderStyle: CSSProperties = { height: "100vh", padding: 10, boxSizing: "border-box" };
@@ -27,7 +33,7 @@ export const Settings: FC = () => {
             style={fluentProviderStyle}
         >
             <div style={{ display: "flex", flexDirection: "row", gap: 20 }}>
-                <Navigation />
+                <Navigation routes={routes} />
                 <div style={{ flexGrow: 1 }}>
                     <Routes>
                         {routes.map(({ path, element }, index) => (

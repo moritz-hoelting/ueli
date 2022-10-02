@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
-import { Context } from "./Context";
+import { Context } from "../../Context/SettingsContext";
 
 export const About: FC = () => {
     const { executionContext } = useContext(Context);

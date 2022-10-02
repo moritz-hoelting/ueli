@@ -1,7 +1,7 @@
 import { SwitchField } from "@fluentui/react-components/unstable";
 import { FC, useContext } from "react";
 
-import { Context } from "./Context";
+import { Context } from "../../Context/SettingsContext";
 
 export const GeneralSettings: FC = () => {
     const { settings, settingsUpdated } = useContext(Context);
