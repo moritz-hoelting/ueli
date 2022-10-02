@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { SearchResultItem } from "../../../Common/SearchResult/SearchResultItem";
-import { ColorThemeName } from "../../Common/ColorThemes";
+import { ColorThemeName } from "../../ColorThemes";
 import { SearchResultListItem } from "./SearchResultListItem";
 
 type Props = {

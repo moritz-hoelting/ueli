@@ -1,7 +1,7 @@
 import { Text } from "@fluentui/react-components";
 import { FC, useEffect, useRef } from "react";
 import { SearchResultItem } from "../../../Common/SearchResult/SearchResultItem";
-import { ColorThemeName, getTheme } from "../../Common/ColorThemes";
+import { ColorThemeName, getTheme } from "../../ColorThemes";
 import { SearchResultListItemIcon } from "./SearchResultListItemIcon";
 
 type Props = {

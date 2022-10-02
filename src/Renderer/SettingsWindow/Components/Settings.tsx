@@ -1,6 +1,5 @@
 import { CSSProperties, FC, useContext } from "react";
 import { FluentProvider } from "@fluentui/react-components";
-import { ColorThemeName, getTheme } from "../../Common/ColorThemes";
 import { Navigation } from "./Navigation";
 import { Route, Routes } from "react-router-dom";
 import { GeneralSettings } from "./GeneralSettings";
@@ -9,6 +8,7 @@ import { AppearanceSettings } from "./AppearanceSettings";
 import { About } from "./About";
 import { Context } from "../SettingsContext";
 import { SettingsRoute } from "../SettingsRoute";
+import { getTheme, ColorThemeName } from "../../ColorThemes";
 
 export const Settings: FC = () => {
     const { settings } = useContext(Context);

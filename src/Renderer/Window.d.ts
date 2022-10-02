@@ -1,4 +1,4 @@
-import { Bridge } from "../../Common/Bridge";
+import { Bridge } from "../Common/Bridge";
 
 declare global {
     interface Window {
