@@ -4,6 +4,7 @@ import { SearchPlugin } from "./Plugins/SearchPlugin";
 import { MacOsApplicationSearchPlugin } from "./Plugins/MacOsApplicationSearchPlugin/MacOsApplicationSearchPlugin";
 import { SimpleFolderSearchPlugin } from "./Plugins/SimpleFolderSearchPlugin/SimpleFolderSearchPlugin";
 import { UeliCommandsPlugin } from "./Plugins/UeliCommandsPlugin/UeliCommandsPlugin";
+import { WindowsApplicationSearchPlugin } from "./Plugins/WindowsApplicationSearchPlugin/WindowsApplicationSearchPlugin";
 
 export class PluginRepository {
     public constructor(protected readonly executionContext: ExecutionContext) {}
@@ -32,6 +33,6 @@ export class PluginRepository {
     }
 
     private getWindowsSpecificPlugins(): SearchPlugin[] {
-        return [];
+        return [new WindowsApplicationSearchPlugin(this.executionContext)];
     }
 }
