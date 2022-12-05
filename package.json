@@ -39,7 +39,7 @@
         "@babel/runtime": "^7.18.3",
         "@fluentui/react-components": "^9.0.1",
         "@types/jest": "^29.2.4",
-        "@types/node": "^17.0.39",
+        "@types/node": "^18.11.11",
         "@types/node-powershell": "^4.0.1",
         "@types/react": "^18.0.11",
         "@types/react-dom": "^18.0.5",
